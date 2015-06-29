@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WiRC.Abacus
+namespace WiRK.Abacus
 {
 	public static class Permutations
 	{

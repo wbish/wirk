@@ -1,4 +1,4 @@
-﻿namespace WiRC.Terminator
+﻿namespace WiRK.Terminator
 {
 	/// <summary>
 	/// Represents a wall that fires lasers. The lasers always point in the direction towards the center

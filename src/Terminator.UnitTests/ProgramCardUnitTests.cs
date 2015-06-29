@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace WiRC.Terminator.UnitTests
+namespace WiRK.Terminator.UnitTests
 {
 	[TestClass]
 	public class ProgramCardUnitTests

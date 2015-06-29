@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WiRC.Abacus;
-using WiRC.Terminator;
+using WiRK.Abacus;
+using WiRK.Terminator;
 
 namespace Abacus.UnitTests
 {
@@ -110,7 +110,7 @@ namespace Abacus.UnitTests
 			List<int> cardsToPlace = robot.CardsToPlace().ToList();
 			List<ProgramCardType> cardTypesToPlace = cardsToPlace.Select(ProgramCard.GetCardByPriority).ToList();
 			int n = cardTypesToPlace.Count();
-			int r = Math.Min(n, Robot.Registers);
+			int r = Math.Min(n, Constants.RobotRegisters);
 			List<Tuple<ProgramCardType, int>> cardDuplicateCounts = Permutations.GetDuplicateItemCounts(cardTypesToPlace).ToList();
 
 			double dividend = (Permutations.Factorial(n) / Permutations.Factorial(n - r));

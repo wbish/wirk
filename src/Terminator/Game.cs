@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WiRK.Terminator.MapElements;
 
-namespace WiRC.Terminator
+namespace WiRK.Terminator
 {
 	public class Game
 	{
@@ -11,14 +12,27 @@ namespace WiRC.Terminator
 		public Game()
 		{
 			Cards = new Deck();
+			Robots = new List<Robot>();
+			Board = new Map();
 		}
 
 		public Map Board { get; protected set; }
 
 		public IEnumerable<Robot> Robots { get; set; }
 
-		public Deck Cards { get; set; } 
+		public Deck Cards { get; set; }
 
+		public void Initialize()
+		{
+			foreach (var robot in Robots)
+			{
+				robot.Initialize(this);
+			}
+		}
+
+		/// <summary>
+		/// Called at the start of each turn. 
+		/// </summary>
 		public void StartTurn()
 		{
 			// Deal cards
@@ -28,11 +42,52 @@ namespace WiRC.Terminator
 			_register = 1;
 		}
 
-		public void ExecuteNextRegister()
+		/// <summary>
+		/// Executes the next register.
+		/// - Robots move
+		/// - Board elements move
+		///		- Express conveyers move 1 space
+		///		- Express and normal conveyers move 1 space
+		///		- Pushers push if active
+		///		- Gears rotate 90 degrees
+		/// - Lasers fire
+		/// </summary>
+		/// <returns>Registers remaining to execute</returns>
+		public int ExecuteNextRegister()
 		{
-			if (_register > Robot.Registers)
-				return;
+			if (_register <= Constants.RobotRegisters)
+			{
+				ExecuteMoves();
 
+				ExecuteExpressConveyers();
+
+				ExecuteAllConveyers();
+
+				ExecutePushers();
+
+				ExecuteGears();
+
+				++_register;
+			}
+
+			return Constants.RobotRegisters - _register - 1;
+		}
+
+		/// <summary>
+		/// Called at the end of each turn.
+		/// - Claims cards back to the deck
+		/// - Wrenches heal, etc
+		/// </summary>
+		public void EndTurn()
+		{
+			// TODO: Do end of turn stuff, e.g. heal on wrench
+
+			// Pick up unlocked cards
+			Cards.Reclaim(Robots);
+		}
+
+		private void ExecuteMoves()
+		{
 			var robotsCardsByPriority = Robots
 				.Select(robot => new Tuple<Robot, int>(robot, robot.CardPriorityAtRegister(_register)))
 				.OrderByDescending(x => x.Item2)
@@ -42,18 +97,64 @@ namespace WiRC.Terminator
 			foreach (var robotCard in robotsCardsByPriority)
 			{
 				Robot robot = robotCard.Item1;
-				robot.ExecuteRegister(this, _register);
+				robot.ExecuteMove(this, _register);
 			}
-
-			++_register;
 		}
 
-		public void EndTurn()
+		private void ExecuteExpressConveyers()
 		{
-			// TODO: Do end of turn stuff, e.g. heal on wrench
+			// Express conveyers convey 1 square
+			foreach (var robot in Robots)
+			{
+				var conveyer = Board.SquareAtCoordinate(robot.Position) as ExpressConveyer;
+				if (conveyer != null)
+				{
+					conveyer.Convey(robot);
+				}
+			}
+		}
 
-			// Pick up unlocked cards
-			Cards.Reclaim(Robots);
+		private void ExecuteAllConveyers()
+		{
+			// Express and Normal conveyers convey 1 square
+			foreach (var robot in Robots)
+			{
+				var conveyer = Board.SquareAtCoordinate(robot.Position) as Conveyer;
+				if (conveyer != null)
+				{
+					conveyer.Convey(robot);
+				}
+			}
+		}
+
+		private void ExecutePushers()
+		{
+			// Pushers push if active for register
+			foreach (var robot in Robots)
+			{
+				var floor = Board.SquareAtCoordinate(robot.Position) as Floor;
+				if (floor != null)
+				{
+					var pusher = floor.GetPusher();
+					if (pusher != null)
+					{
+						pusher.Push(robot, _register);
+					}
+				}
+			}
+		}
+
+		private void ExecuteGears()
+		{
+			// Gears rotate 
+			foreach (var robot in Robots)
+			{
+				var gear = Board.SquareAtCoordinate(robot.Position) as Gear;
+				if (gear != null)
+				{
+					gear.Rotate(robot);
+				}
+			}
 		}
 	}
 }

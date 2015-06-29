@@ -1,6 +1,6 @@
-﻿using WiRC.Terminator;
+﻿using WiRK.Terminator;
 
-namespace WiRC.Abacus
+namespace WiRK.Abacus
 {
 	public class CardExecutionResult
 	{

@@ -6,8 +6,8 @@
     <ProjectGuid>{9830D151-75F1-4061-9D49-719CB3B99BE3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Abacus.UnitTests</RootNamespace>
-    <AssemblyName>Abacus.UnitTests</AssemblyName>
+    <RootNamespace>WiRK.Abacus.UnitTests</RootNamespace>
+    <AssemblyName>WiRK.Abacus.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

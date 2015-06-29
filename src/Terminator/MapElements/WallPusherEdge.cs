@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace WiRC.Terminator
+namespace WiRK.Terminator
 {
 	/// <summary>
 	/// Represents a wall that pushes a robot if a robot is present on the register in which
@@ -18,5 +19,10 @@ namespace WiRC.Terminator
 		/// The registers the pushers will be active on
 		/// </summary>
 		public List<int> Registers { get; protected set; }
+
+		public void Push(Robot robot, int register)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

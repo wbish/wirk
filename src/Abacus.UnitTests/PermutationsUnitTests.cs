@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace WiRC.Abacus.UnitTests
+namespace WiRK.Abacus.UnitTests
 {
 	[TestClass]
 	public class PermutationsUnitTests

@@ -7,8 +7,8 @@
     <ProjectGuid>{4449FFF8-FDCF-45D9-A175-27488FDAAD73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WiRC.Abacus</RootNamespace>
-    <AssemblyName>WiRC.Abacus</AssemblyName>
+    <RootNamespace>WiRK.Abacus</RootNamespace>
+    <AssemblyName>WiRK.Abacus</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

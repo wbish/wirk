@@ -7,8 +7,8 @@
     <ProjectGuid>{1B246C46-E7C1-478E-9C29-BA31CDF672FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WiRC.Terminator</RootNamespace>
-    <AssemblyName>WiRC.Terminator</AssemblyName>
+    <RootNamespace>WiRK.Terminator</RootNamespace>
+    <AssemblyName>WiRK.Terminator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,11 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="MapElements\Gyro.cs" />
+    <Compile Include="MapElements\ExpressConveyer.cs" />
+    <Compile Include="MapElements\Gear.cs" />
     <Compile Include="ProgramCard.cs" />
     <Compile Include="ProgramCardType.cs" />
     <Compile Include="RobotCard.cs" />
@@ -58,7 +60,7 @@
     <Compile Include="MapElements\Floor.cs" />
     <Compile Include="MapElements\IEdge.cs" />
     <Compile Include="MapElements\ISquare.cs" />
-    <Compile Include="MapElements\EdgeLocation.cs" />
+    <Compile Include="Orientation.cs" />
     <Compile Include="MapElements\Pit.cs" />
     <Compile Include="MapElements\WallEdge.cs" />
     <Compile Include="MapElements\WallLaserEdge.cs" />

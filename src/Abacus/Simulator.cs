@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using WiRC.Terminator;
+using WiRK.Terminator;
 
-namespace WiRC.Abacus
+namespace WiRK.Abacus
 {
     public class Simulator
     {
@@ -77,7 +77,7 @@ namespace WiRC.Abacus
 
 			cardStack = cardStack ?? new Stack<ProgramCardType>(5);
 
-			if (cardStack.Count == Robot.Registers || node.Children == null)
+			if (cardStack.Count == Constants.RobotRegisters || node.Children == null)
 			{
 				var p = new List<ProgramCardType>(cardStack);
 				p.Reverse();
@@ -98,7 +98,7 @@ namespace WiRC.Abacus
 			}
 		}
 
-		private static void BuildCardPermutationTree(PermutationNode node, IEnumerable<ProgramCardType> cardsToPlace, int depth = Robot.Registers)
+		private static void BuildCardPermutationTree(PermutationNode node, IEnumerable<ProgramCardType> cardsToPlace, int depth = Constants.RobotRegisters)
 		{
 			if (depth == 0)
 				return;

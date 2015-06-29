@@ -1,4 +1,4 @@
-﻿namespace WiRC.Terminator.MapElements
+﻿namespace WiRK.Terminator.MapElements
 {
 	public class WrenchHammer : Wrench
 	{

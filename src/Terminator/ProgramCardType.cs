@@ -1,4 +1,4 @@
-﻿namespace WiRC.Terminator
+﻿namespace WiRK.Terminator
 {
 	public enum ProgramCardType
 	{

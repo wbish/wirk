@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
-namespace WiRC.Terminator.UnitTests
+namespace WiRK.Terminator.UnitTests
 {
 	[TestClass]
 	public class MapUnitTests
@@ -46,6 +46,6 @@ namespace WiRC.Terminator.UnitTests
 			Assert.IsNull(square);
 		}
 
-		private const string OneSquareWrenchRallyMap = @"{""$type"":""WiRC.Terminator.Map, WiRC.Terminator"",""Squares"":{""$type"":""System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[WiRC.Terminator.ISquare, WiRC.Terminator]], mscorlib]], mscorlib"",""$values"":[{""$type"":""System.Collections.Generic.List`1[[WiRC.Terminator.ISquare, WiRC.Terminator]], mscorlib"",""$values"":[{""$type"":""WiRC.Terminator.Wrench, WiRC.Terminator"",""Top"":null,""Right"":null,""Bottom"":null,""Left"":null}]}]}}";
+		private const string OneSquareWrenchRallyMap = @"{""$type"":""WiRK.Terminator.Map, WiRK.Terminator"",""Squares"":{""$type"":""System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[WiRK.Terminator.ISquare, WiRK.Terminator]], mscorlib]], mscorlib"",""$values"":[{""$type"":""System.Collections.Generic.List`1[[WiRK.Terminator.ISquare, WiRK.Terminator]], mscorlib"",""$values"":[{""$type"":""WiRK.Terminator.Wrench, WiRK.Terminator"",""Top"":null,""Right"":null,""Bottom"":null,""Left"":null}]}]}}";
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using WiRC.Terminator;
+using WiRK.Terminator;
 
-namespace WiRC.Abacus
+namespace WiRK.Abacus
 {
 	public class PermutationNode
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WiRC.Terminator
+namespace WiRK.Terminator
 {
 	public class Deck
 	{

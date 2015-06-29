@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WiRC.Terminator
+namespace WiRK.Terminator
 {
-	public class ProgramCard
+	public static class ProgramCard
 	{
 		private static readonly IEnumerable<Tuple<ProgramCardType, IEnumerable<int>>> ProgramCardPriorities = new List
 			<Tuple<ProgramCardType, IEnumerable<int>>>
@@ -27,7 +27,7 @@ namespace WiRC.Terminator
 
 		public static ProgramCardType GetCardByPriority(int priority)
 		{
-			if (priority < 10 || priority > 840)
+			if (priority < LowestPriorityCard || priority > HighestPriorityCard)
 				throw new IndexOutOfRangeException("Priority must be between 10 and 840");
 
 			foreach (var cardType in ProgramCardPriorities.Where(cardType => cardType.Item2.Contains(priority)))
@@ -38,7 +38,7 @@ namespace WiRC.Terminator
 			throw new ArgumentException("Invalid priority. Priority must be between 10 and 840 and in increments of 10.", "priority");
 		}
 
-		internal static int LowestPriorityCard = 840;
-		internal static int HighestPriorityCard = 840;
+		internal const int LowestPriorityCard = 10;
+		internal const int HighestPriorityCard = 840;
 	}
 }

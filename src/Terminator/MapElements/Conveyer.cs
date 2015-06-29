@@ -8,8 +8,6 @@ namespace WiRK.Terminator
 
 		public Orientation Exit { get; protected set; }
 
-		public virtual int Moves { get { return 1; } }
-
 		public Rotation ConveyerRotation
 		{
 			get

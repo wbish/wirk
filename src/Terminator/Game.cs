@@ -16,7 +16,7 @@ namespace WiRK.Terminator
 			Board = new Map();
 		}
 
-		public Map Board { get; protected set; }
+		public Map Board { get; set; }
 
 		public IEnumerable<Robot> Robots { get; set; }
 
@@ -97,7 +97,7 @@ namespace WiRK.Terminator
 			foreach (var robotCard in robotsCardsByPriority)
 			{
 				Robot robot = robotCard.Item1;
-				robot.ExecuteMove(this, _register);
+				robot.ExecuteMove(_register);
 			}
 		}
 

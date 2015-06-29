@@ -58,6 +58,7 @@
     <Compile Include="Maps.cs" />
     <Compile Include="MapUnitTests.cs" />
     <Compile Include="ProgramCardUnitTests.cs" />
+    <Compile Include="RobotUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

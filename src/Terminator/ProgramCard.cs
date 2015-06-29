@@ -6,7 +6,7 @@ namespace WiRK.Terminator
 {
 	public static class ProgramCard
 	{
-		private static readonly IEnumerable<Tuple<ProgramCardType, IEnumerable<int>>> ProgramCardPriorities = new List
+		public static readonly IEnumerable<Tuple<ProgramCardType, IEnumerable<int>>> ProgramCardPriorities = new List
 			<Tuple<ProgramCardType, IEnumerable<int>>>
 		{
 			new Tuple<ProgramCardType, IEnumerable<int>>(ProgramCardType.UTurn, 

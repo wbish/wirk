@@ -36,6 +36,10 @@ namespace WiRK.Terminator
 			int priority = CardPriorityAtRegister(register);
 			ProgramCardType card = ProgramCard.GetCardByPriority(priority);
 
+			ISquare currentSquare = _game.Board.SquareAtCoordinate(Position);
+			if (currentSquare == null)
+				return; // This robot is not on the board
+
 			switch(card)
 			{
 				case ProgramCardType.UTurn:
@@ -60,7 +64,7 @@ namespace WiRK.Terminator
 					Move3();
 					break;
 				default:
-					throw new InvalidOperationException();
+					throw new InvalidOperationException("Invalid move");
 			}
 		}
 
@@ -131,10 +135,12 @@ namespace WiRK.Terminator
 			var target = new Coordinate {X = x, Y = y};
 			ISquare targetSquare = _game.Board.SquareAtCoordinate(target);
 
-			if (targetSquare == null)
-				throw new NotImplementedException("Robot fell of board");
-			if (targetSquare.GetType() == typeof(Pit))
-				throw new NotImplementedException("Robot fell into a pit");
+			if (targetSquare == null || targetSquare.GetType() == typeof(Pit))
+			{
+				// BUG: Do we need a IsDead property or is invalid position good enough?
+				Position = new Coordinate {X = -1, Y = -1};
+				return;
+			}
 
 			var targetFloor = (Floor) targetSquare;
 			Orientation opposite = Utilities.GetOppositeOrientation(Facing);

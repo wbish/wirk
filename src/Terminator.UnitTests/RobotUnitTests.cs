@@ -112,6 +112,21 @@ namespace WiRK.Terminator.UnitTests
 			Assert.AreEqual(Orientation.Right, robot.Facing, "Facing");
 		}
 
+		[TestMethod]
+		public void Robot_ExecuteRegister_Move1OffBoard()
+		{
+			// Arrange
+			Robot robot = RobotForMoveTest(ProgramCardType.Move1);
+			robot.Facing = Orientation.Top;
+
+			// Act
+			robot.ExecuteMove(1 /* register */);
+
+			// Assert
+			Assert.AreEqual(-1, robot.Position.Y, "Position.Y");
+			Assert.AreEqual(-1, robot.Position.X, "Position.X");
+		}
+
 		private Robot RobotForMoveTest(ProgramCardType cardType)
 		{
 			int card = GetCardOfType(cardType);

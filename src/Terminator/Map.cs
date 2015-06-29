@@ -25,12 +25,12 @@ namespace WiRK.Terminator
 				throw new Exception("Map not initialized");
 			}
 
-			if (location.Y >= Squares.Count())
+			if (location.Y >= Squares.Count() || location.Y < 0)
 				return null;
 
 			List<ISquare> row = Squares.ElementAt(location.Y).ToList();
 
-			if (location.X >= row.Count())
+			if (location.X >= row.Count() || location.X < 0)
 				return null;
 
 			ISquare square = row.ElementAt(location.X);

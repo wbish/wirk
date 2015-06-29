@@ -89,7 +89,7 @@ namespace WiRK.Terminator
 		private void ExecuteMoves()
 		{
 			var robotsCardsByPriority = Robots
-				.Select(robot => new Tuple<Robot, int>(robot, robot.CardPriorityAtRegister(_register)))
+				.Select(robot => new Tuple<Robot, int>(robot, robot.CardAtRegister(_register)))
 				.OrderByDescending(x => x.Item2)
 				.ToList();
 

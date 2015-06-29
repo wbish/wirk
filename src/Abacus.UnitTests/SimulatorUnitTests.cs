@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WiRK.Abacus;
 using WiRK.Terminator;
+using WiRK.Terminator.UnitTests;
 
 namespace Abacus.UnitTests
 {
@@ -28,6 +29,28 @@ namespace Abacus.UnitTests
 
 			// Assert
 			Assert.AreEqual(690, moves.Count);
+		}
+
+		[TestMethod]
+		public void Simulator_RunSimulations_7Cards2TypeRepeatedTwice()
+		{
+			// Arrange
+			var robot = new Robot();
+			robot.DealCard(10);		// UTurn
+			robot.DealCard(20);		// UTurn
+			robot.DealCard(70);		// RotateLeft
+			robot.DealCard(80);		// RotateRight
+			robot.DealCard(430);	// BackUp
+			robot.DealCard(490);	// Move1
+			robot.DealCard(500);	// Move1
+			var game = new Game { Board = { Squares = Maps.ScottRallyMap }, Robots = new List<Robot> { robot } };
+			game.Initialize();
+			
+			// Act
+			List<List<CardExecutionResult>> results = Simulator.RunSimulations(robot);
+
+			// Assert
+			Assert.AreEqual(690, results.Count);
 		}
 
 		[TestMethod]

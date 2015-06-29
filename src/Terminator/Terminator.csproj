@@ -67,6 +67,7 @@
     <Compile Include="MapElements\WallPusherEdge.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="VisualStudioAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

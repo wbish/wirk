@@ -33,14 +33,19 @@ namespace WiRK.Terminator
 			if (register > Constants.RobotRegisters || register < 1)
 				throw new ArgumentException("Invalid register");
 
-			int priority = CardPriorityAtRegister(register);
+			int priority = CardAtRegister(register);
 			ProgramCardType card = ProgramCard.GetCardByPriority(priority);
 
+			ExecuteMove(card);
+		}
+
+		internal void ExecuteMove(ProgramCardType card)
+		{
 			ISquare currentSquare = _game.Board.SquareAtCoordinate(Position);
 			if (currentSquare == null)
 				return; // This robot is not on the board
 
-			switch(card)
+			switch (card)
 			{
 				case ProgramCardType.UTurn:
 					UTurn();
@@ -150,6 +155,8 @@ namespace WiRK.Terminator
 			if (targetFloorEdge != null)
 				return;
 
+			// BUG: We need to handle pushing robots
+
 			Position = target;
 		}
 
@@ -166,7 +173,7 @@ namespace WiRK.Terminator
 			Move1();
 		}
 
-		public int CardPriorityAtRegister(int register)
+		public int CardAtRegister(int register)
 		{
 			if (register > Constants.RobotRegisters || register < 1)
 				throw new ArgumentException("Invalid register");
@@ -179,17 +186,30 @@ namespace WiRK.Terminator
 			Cards.Add(new RobotCard { Card = priority, Register = 0});
 		}
 
+		/// <summary>
+		/// Cards that can be placed. Not current placed.
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerable<int> CardsToPlace()
 		{
-			return from card in Cards where card.Register == 0 select card.Card;
+			return new List<int>(from card in Cards where card.Register == 0 select card.Card);
 		}
 
+		/// <summary>
+		/// Place a card on a register
+		/// </summary>
+		/// <param name="card">Card to place</param>
+		/// <param name="register">Register to set on</param>
 		public void PlaceCard(int card, int register)
 		{
 			RobotCard c = Cards.First(x => x.Card == card);
 			c.Register = register;
 		}
 
+		/// <summary>
+		/// Picks up all cards not locked by damage
+		/// </summary>
+		/// <returns>Cards picked up</returns>
 		public IEnumerable<int> PickUpCards()
 		{
 			var cardsToPickUp = new List<int>();
@@ -211,6 +231,9 @@ namespace WiRK.Terminator
 			return cardsToPickUp;
 		}
 
+		/// <summary>
+		/// Unplace a card from a register.
+		/// </summary>
 		public void ResetCards()
 		{
 			int resetCardsAtRegisterOrBelow = Constants.RobotRegisters - LockedRegisters();

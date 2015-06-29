@@ -13,9 +13,6 @@ namespace WiRK.Terminator.UnitTests
 
 			// Act
 			deck.Shuffle();
-
-			// Assert
-			
 		}
 	}
 }

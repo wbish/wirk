@@ -7,5 +7,7 @@ namespace WiRK.Abacus
 		public ProgramCardType Card;
 
 		public Coordinate Position;
+
+		public Orientation Facing;
 	}
 }

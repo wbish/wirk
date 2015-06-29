@@ -47,6 +47,7 @@
     <Compile Include="PermutationNode.cs" />
     <Compile Include="Permutations.cs" />
     <Compile Include="Simulator.cs" />
+    <Compile Include="VisualStudioAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

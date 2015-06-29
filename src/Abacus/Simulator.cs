@@ -6,39 +6,30 @@ using WiRK.Terminator;
 
 namespace WiRK.Abacus
 {
-    public class Simulator
+    public static class Simulator
     {
-	    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
-	    {
-		    TypeNameHandling = TypeNameHandling.All
-	    };
-
-	    private Game _game;
-
-		public void LoadGame(string json)
+		public static List<List<CardExecutionResult>> RunSimulations(Robot robot)
 		{
-			_game = JsonConvert.DeserializeObject<Game>(json, SerializerSettings);
-		}
+			var results = new List<List<CardExecutionResult>>(); 
+			List<List<ProgramCardType>> permutations = CalculateMovePermutations(robot);
+			robot.PickUpCards();
+			Coordinate position = robot.Position;
 
-	    public string SaveGame()
-	    {
-		    if (_game == null)
-			    throw new InvalidProgramException("Game not initialized");
-
-			return JsonConvert.SerializeObject(_game, SerializerSettings);
-	    }
-
-		public void SetRobotPosition(Robot robot, Coordinate position)
-		{
-			robot.Position = position;
-		}
-
-		public void SetRobotCards(Robot robot, IEnumerable<int> cardPriorities)
-		{
-			foreach (var card in cardPriorities)
+			foreach (var permutation in permutations)
 			{
-				robot.DealCard(card);
+				robot.Position = position;
+
+				var permutationResult = new List<CardExecutionResult>();
+				foreach (var card in permutation)
+				{
+					robot.ExecuteMove(card);
+					permutationResult.Add(new CardExecutionResult {Card = card, Position = robot.Position, Facing = robot.Facing});
+				}
+
+				results.Add(permutationResult);
 			}
+
+			return results;
 		}
 
 		/// <summary>
@@ -46,7 +37,7 @@ namespace WiRK.Abacus
 		/// </summary>
 		/// <param name="robot">Robot</param>
 		/// <returns>List of permutations</returns>
-		public static List<List<ProgramCardType>> CalculateMovePermutations(Robot robot)
+		internal static List<List<ProgramCardType>> CalculateMovePermutations(Robot robot)
 		{
 			var permutations = new List<List<ProgramCardType>>();
 

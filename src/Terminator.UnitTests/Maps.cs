@@ -5,7 +5,7 @@ namespace WiRK.Terminator.UnitTests
 	public static class Maps
 	{
 		// TODO: Finish
-		public static List<IEnumerable<ISquare>> ScottRallyMap = new List<IEnumerable<ISquare>>
+		public static readonly List<IEnumerable<ISquare>> ScottRallyMap = new List<IEnumerable<ISquare>>
 			{
 				new []
 				{ 
@@ -16,9 +16,9 @@ namespace WiRK.Terminator.UnitTests
 					new Conveyer(Orientation.Right, Orientation.Left) { Top = new WallEdge() }, 
 					new Conveyer(Orientation.Top, Orientation.Left), 
 					new Floor(), 
-					new Floor() { Top = new WallEdge() }, 
+					new Floor { Top = new WallEdge() }, 
 					new Floor(), 
-					new Floor() { Top = new WallEdge() }, 
+					new Floor { Top = new WallEdge() }, 
 					new Floor(), 
 					new Wrench() 
 				},

@@ -58,6 +58,10 @@
       <Project>{4449fff8-fdcf-45d9-a175-27488fdaad73}</Project>
       <Name>Abacus</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Terminator.UnitTests\Terminator.UnitTests.csproj">
+      <Project>{5abfb40a-d738-4476-a760-77903a8597e3}</Project>
+      <Name>Terminator.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Terminator\Terminator.csproj">
       <Project>{1b246c46-e7c1-478e-9c29-ba31cdf672ff}</Project>
       <Name>Terminator</Name>

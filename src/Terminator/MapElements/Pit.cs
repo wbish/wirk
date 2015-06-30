@@ -1,6 +1,6 @@
 ﻿namespace WiRK.Terminator
 {
-	public class Pit : ISquare
+	public class Pit : ITile
 	{
 	}
 }

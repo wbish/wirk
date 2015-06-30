@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace WiRK.Terminator
 {
-	public class Floor : ISquare
+	public class Floor : ITile
 	{
 		private List<Tuple<Orientation, IEdge>> _edges;
 

@@ -7,6 +7,16 @@
 	/// </summary>
 	public class WallLaserEdge : WallEdge
 	{
+		public WallLaserEdge()
+			: this(1)
+		{
+		}
+
+		public WallLaserEdge(int lasers)
+		{
+			Lasers = lasers;
+		}
+
 		public int Lasers { get; set; }
 	}
 }

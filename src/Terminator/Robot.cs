@@ -41,8 +41,8 @@ namespace WiRK.Terminator
 
 		internal void ExecuteMove(ProgramCardType card)
 		{
-			ISquare currentSquare = _game.Board.SquareAtCoordinate(Position);
-			if (currentSquare == null)
+			ITile currentTile = _game.Board.GetTile(Position);
+			if (currentTile == null)
 				return; // This robot is not on the board
 
 			switch (card)
@@ -107,12 +107,12 @@ namespace WiRK.Terminator
 
 		private void Move1()
 		{
-			var current = _game.Board.SquareAtCoordinate(Position) as Floor;
+			var current = _game.Board.GetTile(Position) as Floor;
 
 			if (current == null)
 				throw new InvalidOperationException("Is this robot flying?");
 
-			// If we are facing an edge, then we cannot move out of this square
+			// If we are facing an edge, then we cannot move out of this tile
 			var edge = current.GetEdge(Facing);
 			if (edge != null)
 				return;
@@ -138,19 +138,19 @@ namespace WiRK.Terminator
 			}
 
 			var target = new Coordinate {X = x, Y = y};
-			ISquare targetSquare = _game.Board.SquareAtCoordinate(target);
+			ITile targetTile = _game.Board.GetTile(target);
 
-			if (targetSquare == null || targetSquare.GetType() == typeof(Pit))
+			if (targetTile == null || targetTile.GetType() == typeof(Pit))
 			{
 				// BUG: Do we need a IsDead property or is invalid position good enough?
 				Position = new Coordinate {X = -1, Y = -1};
 				return;
 			}
 
-			var targetFloor = (Floor) targetSquare;
+			var targetFloor = (Floor) targetTile;
 			Orientation opposite = Utilities.GetOppositeOrientation(Facing);
 
-			// Make sure there is no edge blocking our entrance in the target floor square
+			// Make sure there is no edge blocking our entrance in the target floor tile
 			IEdge targetFloorEdge = targetFloor.GetEdge(opposite);
 			if (targetFloorEdge != null)
 				return;

@@ -15,14 +15,14 @@ namespace WiRK.Terminator.UnitTests
 
 			// Assert
 			Assert.IsNotNull(map);
-			Assert.IsInstanceOfType(map.SquareAtCoordinate(new Coordinate {X = 0, Y = 0}), typeof (Wrench), "Square is Wrench");
+			Assert.IsInstanceOfType(map.GetTile(new Coordinate {X = 0, Y = 0}), typeof (Wrench), "Square is Wrench");
 		}
 
 		[TestMethod]
 		public void OneSquareWrenchRallyMap_FirstSquareIsWrench_Serialize()
 		{
 			// Arrange
-			var squares = new List<List<ISquare>> {new List<ISquare> {new Wrench()}};
+			var squares = new List<List<ITile>> {new List<ITile> {new Wrench()}};
 			var map = new Map {Squares = squares};
 
 			// Act
@@ -36,16 +36,16 @@ namespace WiRK.Terminator.UnitTests
 		public void SquareAtCoordinate_OutOfBounds_ReturnsNull()
 		{
 			// Arrange
-			var squares = new List<List<ISquare>> { new List<ISquare> { new Wrench() } };
+			var squares = new List<List<ITile>> { new List<ITile> { new Wrench() } };
 			var map = new Map { Squares = squares };
 
 			// Act
-			ISquare square = map.SquareAtCoordinate(new Coordinate {X = 1, Y = 0});
+			ITile tile = map.GetTile(new Coordinate {X = 1, Y = 0});
 
 			// Assert
-			Assert.IsNull(square);
+			Assert.IsNull(tile);
 		}
 
-		private const string OneSquareWrenchRallyMap = @"{""$type"":""WiRK.Terminator.Map, WiRK.Terminator"",""Squares"":{""$type"":""System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[WiRK.Terminator.ISquare, WiRK.Terminator]], mscorlib]], mscorlib"",""$values"":[{""$type"":""System.Collections.Generic.List`1[[WiRK.Terminator.ISquare, WiRK.Terminator]], mscorlib"",""$values"":[{""$type"":""WiRK.Terminator.Wrench, WiRK.Terminator"",""Top"":null,""Right"":null,""Bottom"":null,""Left"":null}]}]}}";
+		private const string OneSquareWrenchRallyMap = @"{""$type"":""WiRK.Terminator.Map, WiRK.Terminator"",""Squares"":{""$type"":""System.Collections.Generic.List`1[[System.Collections.Generic.List`1[[WiRK.Terminator.ITile, WiRK.Terminator]], mscorlib]], mscorlib"",""$values"":[{""$type"":""System.Collections.Generic.List`1[[WiRK.Terminator.ITile, WiRK.Terminator]], mscorlib"",""$values"":[{""$type"":""WiRK.Terminator.Wrench, WiRK.Terminator"",""Top"":null,""Right"":null,""Bottom"":null,""Left"":null}]}]}}";
 	}
 }

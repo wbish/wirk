@@ -106,7 +106,7 @@ namespace WiRK.Terminator
 			// Express conveyers convey 1 square
 			foreach (var robot in Robots)
 			{
-				var conveyer = Board.SquareAtCoordinate(robot.Position) as ExpressConveyer;
+				var conveyer = Board.GetTile(robot.Position) as ExpressConveyer;
 				if (conveyer != null)
 				{
 					conveyer.Convey(robot);
@@ -119,7 +119,7 @@ namespace WiRK.Terminator
 			// Express and Normal conveyers convey 1 square
 			foreach (var robot in Robots)
 			{
-				var conveyer = Board.SquareAtCoordinate(robot.Position) as Conveyer;
+				var conveyer = Board.GetTile(robot.Position) as Conveyer;
 				if (conveyer != null)
 				{
 					conveyer.Convey(robot);
@@ -132,7 +132,7 @@ namespace WiRK.Terminator
 			// Pushers push if active for register
 			foreach (var robot in Robots)
 			{
-				var floor = Board.SquareAtCoordinate(robot.Position) as Floor;
+				var floor = Board.GetTile(robot.Position) as Floor;
 				if (floor != null)
 				{
 					var pusher = floor.GetPusher();
@@ -149,7 +149,7 @@ namespace WiRK.Terminator
 			// Gears rotate 
 			foreach (var robot in Robots)
 			{
-				var gear = Board.SquareAtCoordinate(robot.Position) as Gear;
+				var gear = Board.GetTile(robot.Position) as Gear;
 				if (gear != null)
 				{
 					gear.Rotate(robot);

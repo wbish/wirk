@@ -1,6 +1,6 @@
 ﻿namespace WiRK.Terminator
 {
-	public interface ISquare
+	public interface ITile
 	{
 	}
 }

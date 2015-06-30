@@ -59,7 +59,7 @@
     <Compile Include="MapElements\Conveyer.cs" />
     <Compile Include="MapElements\Floor.cs" />
     <Compile Include="MapElements\IEdge.cs" />
-    <Compile Include="MapElements\ISquare.cs" />
+    <Compile Include="MapElements\ITile.cs" />
     <Compile Include="Orientation.cs" />
     <Compile Include="MapElements\Pit.cs" />
     <Compile Include="MapElements\WallEdge.cs" />

@@ -11,7 +11,6 @@ namespace WiRK.TwirkIt
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			btnRunSimulations.Attributes.Add("onclick", "return ValidateSimulate();");
 		}
 
 		protected void btnRunSimulations_OnClick(object sender, EventArgs e)

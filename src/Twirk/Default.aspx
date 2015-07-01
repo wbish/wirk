@@ -24,7 +24,7 @@
 					var cardInts = cards.split(",");
 
 					if (cardInts.length < 5) {
-						alert('need atleast 5 cards');
+						alert('You should have atleast 5 cards');
 						return false;
 					}
 
@@ -32,7 +32,7 @@
 						var cv = cardInts[i];
 
 						if (cv % 10 != 0 || cv < 10 || cv > 840) {
-							alert('Invalid Card priority: ' + cv);
+							alert('Invalid card priority: ' + cv);
 							return false;
 						}
 					}
@@ -45,7 +45,7 @@
 			<p>Enter comma seperated list of card priorities</p>
 			<input type="text" id="cards" name="Cards" value="" />
 			<input type="hidden" id="robotPosition" name="RobotPosition" value="0,0" />
-			<input type="hidden" id="robotOrientation" name="RobotOrientation" value="1" />
+			<input type="hidden" id="robotOrientation" name="RobotOrientation" value="0" />
 		</div>
 		<div>
 			<p>Click the board to set your robot position and direction</p>

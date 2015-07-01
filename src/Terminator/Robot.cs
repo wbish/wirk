@@ -110,7 +110,10 @@ namespace WiRK.Terminator
 			var current = _game.Board.GetTile(Position) as Floor;
 
 			if (current == null)
-				throw new InvalidOperationException("Is this robot flying?");
+			{
+				// Robot is dead -- off the board
+				return;
+			}
 
 			// If we are facing an edge, then we cannot move out of this tile
 			var edge = current.GetEdge(Facing);

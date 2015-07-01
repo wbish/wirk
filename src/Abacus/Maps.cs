@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WiRK.Terminator;
 using WiRK.Terminator.MapElements;
 
-namespace WiRK.Terminator.UnitTests
+namespace WiRK.Abacus
 {
 	public static class Maps
 	{

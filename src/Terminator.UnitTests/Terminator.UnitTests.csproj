@@ -55,7 +55,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DeckUnitTests.cs" />
-    <Compile Include="Maps.cs" />
     <Compile Include="MapUnitTests.cs" />
     <Compile Include="ProgramCardUnitTests.cs" />
     <Compile Include="RobotUnitTests.cs" />
@@ -64,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Abacus\Abacus.csproj">
+      <Project>{4449fff8-fdcf-45d9-a175-27488fdaad73}</Project>
+      <Name>Abacus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Terminator\Terminator.csproj">
       <Project>{1b246c46-e7c1-478e-9c29-ba31cdf672ff}</Project>
       <Name>Terminator</Name>

@@ -53,7 +53,11 @@ namespace WiRK.Terminator
 
 		private void PutEdge(Orientation edgeLocation, IEdge edge)
 		{
+			var oldEdge = Edges.FirstOrDefault(x => x.Item1 == edgeLocation);
+			if (oldEdge != null)
+				Edges.Remove(oldEdge);
 
+			Edges.Add(new Tuple<Orientation, IEdge>(edgeLocation, edge));
 		}
 
 		public IEdge GetEdge(Orientation edgeLocation)

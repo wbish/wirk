@@ -6,9 +6,9 @@ namespace WiRK.Terminator
 {
 	public class Conveyer : Floor
 	{
-		public List<Orientation> Entrances { get; protected set; }
+		public List<Orientation> Entrances { get; internal set; }
 
-		public Orientation Exit { get; protected set; }
+		public Orientation Exit { get; internal set; }
 
 		public Rotation ConveyerRotation(Orientation entrance)
 		{

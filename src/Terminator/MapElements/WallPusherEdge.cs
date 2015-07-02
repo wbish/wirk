@@ -11,6 +11,11 @@ namespace WiRK.Terminator
 	public class WallPusherEdge : WallEdge
 	{
 		public WallPusherEdge(params int[] registers)
+			: this(registers.ToList())
+		{
+		}
+
+		public WallPusherEdge(IEnumerable<int> registers)
 		{
 			Registers = registers.ToList();
 		}

@@ -46,7 +46,7 @@ namespace WiRK.Terminator
 				Cards.Deal(Robots);
 			}
 
-			// RoboRally refers to the first register as register 1 and not register 0.
+			// The game refers to the first register as register 1 and not register 0.
 			_register = 1;
 		}
 

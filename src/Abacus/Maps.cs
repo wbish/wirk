@@ -12,7 +12,7 @@ namespace WiRK.Abacus
 			ScottRallyMap,
 		}
 
-		public static List<IEnumerable<ITile>> GetMap(MapLayouts layout)
+		public static IEnumerable<IEnumerable<ITile>> GetMap(MapLayouts layout)
 		{
 			switch (layout)
 			{
@@ -23,9 +23,10 @@ namespace WiRK.Abacus
 			}
 		}
 
-		private static List<IEnumerable<ITile>> BuildScottRallyMap()
+		private static IEnumerable<IEnumerable<ITile>> BuildScottRallyMap()
 		{
 			var map = new List<IEnumerable<ITile>>(ScottRallyMap);
+			map.AddRange(Transpose(map));
 
 			return map;
 		}
@@ -213,5 +214,71 @@ namespace WiRK.Abacus
 					new Wrench()
 				},
 			};
+
+		private static IEnumerable<IEnumerable<ITile>> Transpose(IEnumerable<IEnumerable<ITile>> map)
+		{
+			var transposition = new List<List<ITile>>();
+			var mapList = map.ToList();
+
+			for (int i = mapList.Count() - 1; i >= 0; --i)
+			{
+				var row = new List<ITile>();
+				for (int j = mapList.ElementAt(i).Count() - 1; j >= 0; --j)
+				{
+					row.Add(TransposeTile(mapList.ElementAt(i).ElementAt(j)));
+				}
+				transposition.Add(row);
+			}
+
+			return transposition;
+		}
+
+		private static ITile TransposeTile(ITile tile)
+		{
+			if (tile is Pit)
+				return new Pit();
+
+			var originalFloorTile = (Floor) tile;
+			Floor floorTile;
+
+			if (tile is ExpressConveyer)
+				floorTile = new ExpressConveyer();
+			else if (tile is Conveyer)
+				floorTile = new Conveyer();
+			else if (tile is WrenchHammer)
+				floorTile = new WrenchHammer();
+			else if (tile is Wrench)
+				floorTile = new Wrench();
+			else if (tile is Gear)
+				floorTile = new Gear((tile as Gear).Direction);
+			else
+				floorTile = new Floor();
+
+			foreach (var edge in originalFloorTile.Edges)
+			{
+				IEdge newEdge;
+
+				if (edge.Item2 is WallLaserEdge)
+					newEdge = new WallLaserEdge((edge.Item2 as WallLaserEdge).Lasers);
+				else if (edge.Item2 is WallPusherEdge)
+					newEdge = new WallPusherEdge((edge.Item2 as WallPusherEdge).Registers);
+				else 
+					newEdge = new WallEdge();
+
+				floorTile.PutEdge(Utilities.GetOppositeOrientation(edge.Item1), newEdge);
+			}
+
+			var originalConveyer = originalFloorTile as Conveyer;
+			if (originalConveyer != null)
+			{
+				var entrances = originalConveyer.Entrances.Select(Utilities.GetOppositeOrientation).ToList();
+
+				var newConveyer = (Conveyer) floorTile;
+				newConveyer.Entrances = entrances;
+				newConveyer.Exit = Utilities.GetOppositeOrientation(originalConveyer.Exit);
+			}
+
+			return floorTile;
+		}
 	}
 }

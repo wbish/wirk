@@ -51,7 +51,7 @@ namespace WiRK.Terminator
 			set { PutEdge(Orientation.Left, value); }
 		}
 
-		private void PutEdge(Orientation edgeLocation, IEdge edge)
+		public void PutEdge(Orientation edgeLocation, IEdge edge)
 		{
 			var oldEdge = Edges.FirstOrDefault(x => x.Item1 == edgeLocation);
 			if (oldEdge != null)

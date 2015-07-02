@@ -37,7 +37,7 @@
 <body>
 	<form id="form1" runat="server">
 		<h1>Twirk It!</h1>
-		<h2>William's RoboRally Calculator (WiRK)</h2>
+		<h2>William's Robots Calculator (WiRK)</h2>
 		<div>
 			<script type="text/javascript">
 				function ValidateSimulate() {
@@ -103,7 +103,7 @@
 		</table>
 
 		<div>
-			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/roborally-wirk">Make it better!</a></p>
+			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/wirk">Make it better!</a></p>
 			<p><a href="javascript:alert('I promise not to look at your cards. Maybe.');">EULA</a></p>
 		</div>
 		<script type="text/javascript">

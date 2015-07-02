@@ -22,6 +22,9 @@ namespace WiRK.Terminator
 
 		public void Push(Robot robot, int register)
 		{
+			if (!Registers.Contains(register))
+				return;
+
 			Coordinate target = robot.Position;
 			Floor floorTile = robot.Game.Board.GetTile(robot.Position) as Floor;
 

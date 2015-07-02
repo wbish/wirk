@@ -27,13 +27,6 @@ namespace WiRK.Abacus
 		{
 			var map = new List<IEnumerable<ITile>>(ScottRallyMap);
 
-			// TODO: This does not actually do want we want. Just a placeholder.
-			// We need to transpose board elements.
-			for (int i = ScottRallyMap.Count - 1; i >= 0; --i)
-			{
-				map.Add(ScottRallyMap[i].Reverse());
-			}
-
 			return map;
 		}
 

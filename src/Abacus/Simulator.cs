@@ -13,10 +13,12 @@ namespace WiRK.Abacus
 			List<List<ProgramCardType>> permutations = CalculateMovePermutations(robot);
 			robot.PickUpCards();
 			Coordinate position = robot.Position;
+			Orientation facing = robot.Facing;
 
 			foreach (var permutation in permutations)
 			{
 				robot.Position = position;
+				robot.Facing = facing;
 
 				var permutationResult = new List<CardExecutionResult>();
 				foreach (var card in permutation)

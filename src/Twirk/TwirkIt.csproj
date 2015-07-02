@@ -61,7 +61,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\ResultArrow-100.png" />
+    <Content Include="Images\ResultArrow.png" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\twirkit.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
-    <Content Include="Images\Arrow-100.png" />
+    <Content Include="Images\RobotArrow.png" />
     <Content Include="Images\ScottRallyMap.png" />
     <Content Include="Web.config" />
   </ItemGroup>

@@ -11,6 +11,10 @@ namespace WiRK.TwirkIt
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
+			ViewState["PosX"] = "0";
+			ViewState["PosY"] = "0";
+			ViewState["Facing"] = "0";
+			ViewState["Cards"] = string.Empty;
 		}
 
 		protected void btnRunSimulations_OnClick(object sender, EventArgs e)
@@ -34,7 +38,12 @@ namespace WiRK.TwirkIt
 			List<List<CardExecutionResult>> results = Simulator.RunSimulations(robot);
 			List<List<CardExecutionResult>> productiveResults = results.Where(result => result.Last().Position.X != -1).ToList();
 
-			ClientScript.RegisterClientScriptBlock(GetType(), "results", "var results = " + JsonConvert.SerializeObject(productiveResults), true);
+			ViewState["PosX"] = position[0];
+			ViewState["PosY"] = position[1];
+			ViewState["Facing"] = Request.Form["robotOrientation"];
+			ViewState["Cards"] = Request.Form["cards"];
+
+			ClientScript.RegisterClientScriptBlock(GetType(), "results", "results = " + JsonConvert.SerializeObject(productiveResults, Formatting.Indented), true);
 		}
 	}
 }

@@ -19,6 +19,8 @@ namespace WiRK.Terminator
 			{
 				Cards.Add(i);
 			}
+
+			Shuffle();
 		}
 
 		public void Shuffle()
@@ -49,6 +51,17 @@ namespace WiRK.Terminator
 				robot.DealCard(Cards.First());
 				Cards.RemoveAt(0);
 			}
+		}
+
+		public int GetCard(ProgramCardType cardType)
+		{
+			foreach (var card in Cards)
+			{
+				if (ProgramCard.GetCardByPriority(card) == cardType)
+					return card;
+			}
+
+			return -1;
 		}
 	}
 }

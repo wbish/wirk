@@ -13,7 +13,10 @@ namespace WiRK.Terminator
 
 		public void Rotate(Robot robot)
 		{
-			throw new NotImplementedException();
+			if (Direction == Rotation.Clockwise)
+				robot.RotateRight();
+			else
+				robot.RotateLeft();
 		}
 	}
 }

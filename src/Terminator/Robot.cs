@@ -6,7 +6,7 @@ namespace WiRK.Terminator
 {
 	public class Robot
 	{
-		private Game _game;
+		internal Game Game { get; set; }
 
 		public Coordinate Position { get; set; }
 
@@ -25,7 +25,7 @@ namespace WiRK.Terminator
 
 		public void Initialize(Game game)
 		{
-			_game = game;
+			Game = game;
 		}
 
 		public void ExecuteMove(int register)
@@ -41,7 +41,7 @@ namespace WiRK.Terminator
 
 		internal void ExecuteMove(ProgramCardType card)
 		{
-			ITile currentTile = _game.Board.GetTile(Position);
+			ITile currentTile = Game.Board.GetTile(Position);
 			if (currentTile == null)
 				return; // This robot is not on the board
 
@@ -79,7 +79,7 @@ namespace WiRK.Terminator
 			RotateLeft();
 		}
 
-		private void RotateLeft()
+		internal void RotateLeft()
 		{
 			if (Facing == Orientation.Bottom)
 				Facing = Orientation.Right;
@@ -91,7 +91,7 @@ namespace WiRK.Terminator
 				Facing = Orientation.Bottom;
 		}
 
-		private void RotateRight()
+		internal void RotateRight()
 		{
 			RotateLeft();
 			RotateLeft();
@@ -107,7 +107,7 @@ namespace WiRK.Terminator
 
 		private void Move1()
 		{
-			var current = _game.Board.GetTile(Position) as Floor;
+			var current = Game.Board.GetTile(Position) as Floor;
 
 			if (current == null)
 			{
@@ -141,7 +141,7 @@ namespace WiRK.Terminator
 			}
 
 			var target = new Coordinate {X = x, Y = y};
-			ITile targetTile = _game.Board.GetTile(target);
+			ITile targetTile = Game.Board.GetTile(target);
 
 			if (targetTile == null || targetTile.GetType() == typeof(Pit))
 			{
@@ -184,9 +184,9 @@ namespace WiRK.Terminator
 			return Cards.First(x => x.Register == register).Card;
 		}
 
-		public void DealCard(int priority)
+		public void DealCard(int priority, int register = 0)
 		{
-			Cards.Add(new RobotCard { Card = priority, Register = 0});
+			Cards.Add(new RobotCard { Card = priority, Register = register});
 		}
 
 		/// <summary>
@@ -219,7 +219,8 @@ namespace WiRK.Terminator
 			int keepCardsAtRegistersOrBelow = Constants.RobotRegisters - LockedRegisters();
 
 			Cards = Cards.OrderBy(x => x.Register).ToList();
-			for (int i = 0; i < Cards.Count; ++i)
+			int count = Cards.Count;
+			for (int i = 0; i < count; ++i)
 			{
 				if (Cards.First().Register <= keepCardsAtRegistersOrBelow)
 				{

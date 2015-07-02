@@ -35,8 +35,16 @@ namespace WiRK.Terminator
 		/// </summary>
 		public void StartTurn()
 		{
-			// Deal cards
-			Cards.Deal(Robots);
+			StartTurn(true /* dealCards */);
+		}
+
+		internal void StartTurn(bool dealCards)
+		{
+			if (dealCards)
+			{
+				// Deal cards
+				Cards.Deal(Robots);
+			}
 
 			// RoboRally refers to the first register as register 1 and not register 0.
 			_register = 1;
@@ -70,7 +78,7 @@ namespace WiRK.Terminator
 				++_register;
 			}
 
-			return Constants.RobotRegisters - _register - 1;
+			return Constants.RobotRegisters - _register + 1;
 		}
 
 		/// <summary>

@@ -11,7 +11,6 @@ namespace WiRK.Abacus
 		{
 			var results = new List<List<CardExecutionResult>>(); 
 			List<List<ProgramCardType>> permutations = CalculateMovePermutations(robot);
-			robot.PickUpCards();
 			Coordinate position = robot.Position;
 			Orientation facing = robot.Facing;
 
@@ -19,13 +18,34 @@ namespace WiRK.Abacus
 			{
 				robot.Position = position;
 				robot.Facing = facing;
+				robot.PickUpCards();
 
+				var deck = new Deck();
 				var permutationResult = new List<CardExecutionResult>();
-				foreach (var card in permutation)
+				for (int i = 0 ; i < permutation.Count; ++i)
 				{
-					robot.ExecuteMove(card);
-					permutationResult.Add(new CardExecutionResult {Card = card, Position = robot.Position, Facing = robot.Facing});
+					int priority = deck.GetCard(permutation[i]);
+					robot.DealCard(priority, i + 1);
 				}
+
+				robot.Game.StartTurn(false /* Deal Cards */);
+
+				while (true)
+				{
+					int registersLeft = robot.Game.ExecuteNextRegister();
+
+					permutationResult.Add(new CardExecutionResult
+					{
+						Card = permutation[permutationResult.Count],
+						Position = robot.Position,
+						Facing = robot.Facing
+					});
+
+					if (registersLeft == 0)
+						break;
+				}
+
+				robot.Game.EndTurn();
 
 				results.Add(permutationResult);
 			}

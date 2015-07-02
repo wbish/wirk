@@ -1,4 +1,4 @@
-# roborally-wirk
-William's RoboRally Calculator (WiRK)
+# wirk
+William's Robots Calculator (WiRK)
 
 http://twirkit.azurewebsites.net

@@ -61,6 +61,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Default.aspx" />
     <Content Include="Images\ResultArrow.png" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\twirkit.pubxml" />
@@ -76,7 +77,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.aspx" />
     <Content Include="Images\RobotArrow.png" />
     <Content Include="Images\ScottRallyMap.png" />
     <Content Include="Web.config" />

@@ -10,31 +10,27 @@
 		var results = null;
 	</script>
 	<style>
-		.robot 
-		{
+		.robot {
 			width: 48px;
 			height: 48px;
 			background-size: 100%;
-			position:absolute;
+			position: absolute;
 		}
 
-		.startRobot
-		{
-			background:url('Images/RobotArrow.png');
+		.startRobot {
+			background: url('Images/RobotArrow.png');
 		}
 
-		.resultRobot
-		{
-			background:url('Images/ResultArrow.png');
+		.resultRobot {
+			background: url('Images/ResultArrow.png');
 		}
 
-		#map
-		{
-			background: url('Images/ScottRallyMap.png'); 
-			background-size: 100%; 
-			width: 576px; 
+		#map {
+			background: url('Images/ScottRallyMap.png');
+			background-size: 100%;
+			width: 576px;
 			height: 1152px;
-			position:relative;
+			position: relative;
 		}
 	</style>
 </head>
@@ -73,20 +69,42 @@
 			</script>
 
 			<asp:Button runat="server" ID="btnRunSimulations" OnClientClick="return ValidateSimulate();" OnClick="btnRunSimulations_OnClick" Text="Run Simulations!" />
+			<asp:Button runat="server" ID="btnCleanResults" OnClientClick="return cleanResults();" Text="Clean Results" />
+
 			<p>Enter comma seperated list of card priorities</p>
 			<input type="text" id="cards" name="Cards" value="<%=ViewState["Cards"] %>" />
 			<input type="hidden" id="robotPosition" name="RobotPosition" value="<%=ViewState["PosX"]%>,<%=ViewState["PosY"]%>" />
 			<input type="hidden" id="robotOrientation" name="RobotOrientation" value="<%=ViewState["Facing"]%>" />
 		</div>
+
 		<div>
-			<p>Click the board to set your robot position and direction</p>
-			<div id="map">
-				<div id="robot" class="startRobot robot"></div>
-			</div>
+			<p>Click the board to set your robot position and direction.</p>
+			<p>Once you have calculated your moves, click a blue arrow to reveal ways to get there.</p>
 		</div>
+
+		<table>
+			<tr>
+				<td>
+					<div>
+						<div id="map">
+							<div id="robot" class="startRobot robot"></div>
+						</div>
+					</div>
+				</td>
+				<td style="vertical-align: top">
+					<div>
+						<p>Results</p>
+						<ul id="results-permutations">
+							
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</table>
+
 		<div>
 			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/roborally-wirk">Make it better!</a></p>
-			<p><a href="javascript:alert('William gets to see all your shiznit');">EULA</a></p>
+			<p><a href="javascript:alert('I promise not to look at your cards. Maybe.');">EULA</a></p>
 		</div>
 		<script type="text/javascript">
 			var TILE_EDGE_SIZE = 48;
@@ -95,16 +113,34 @@
 				var x = Math.floor((e.pageX - this.offsetLeft) / TILE_EDGE_SIZE);
 				var y = Math.floor((e.pageY - this.offsetTop) / TILE_EDGE_SIZE);
 
-				var currentPosition = document.getElementById("robotPosition").value;
-				var clickedPosition = x + "," + y;
 
-				if (currentPosition == clickedPosition)
-				{
-					setOrientation(parseInt(document.getElementById("robotOrientation").value) + 1);
+				// We are placing the robot for move calculation
+				if (results == null) {
+					var currentPosition = document.getElementById("robotPosition").value;
+					var clickedPosition = x + "," + y;
+
+					if (currentPosition == clickedPosition) {
+						setOrientation(parseInt(document.getElementById("robotOrientation").value) + 1);
+					} else {
+						setRobot(x, y);
+					}
 				}
 				else
 				{
-					setRobot(x, y);
+					// We are trying to look at results
+					var resultList = $("#results-permutations");
+					resultList.empty();
+					for (var i = 0; i < results.length; ++i) 
+					{
+						if (results[i][4].Position.X == x && results[i][4].Position.Y == y) {
+							var cards = "";
+							for (var  j = 0; j < 5; ++j) {
+								cards += cardType(results[i][j].Card) + ' ; ';
+							}
+							cards += "Facing == " + facing(results[i][4].Facing);
+							resultList.append("<li>" + cards + "</li>");
+						}
+					}
 				}
 			});
 
@@ -127,6 +163,9 @@
 			}
 
 			function showResults() {
+
+				$(".resultRobot").remove();
+
 				if (results == null)
 					return;
 
@@ -137,6 +176,40 @@
 					var rotate = results[i][4].Facing * 90;
 					$("#map").append("<div class=\"resultRobot robot\" style=\"left:" + left + ";top:" + top + ";transform:rotate("+rotate+"deg);\"></div>");
 				}
+			}
+
+			function cleanResults() {
+				results = null;
+				showResults();
+				return false;
+			}
+
+			function cardType(x) {
+				if (x == 0)
+					return "UTurn";
+				else if (x == 1)
+					return "RotateLeft";
+				else if (x == 2)
+					return "RotateRight";
+				else if (x == 3)
+					return "BackUp";
+				else if (x == 4)
+					return "Move1";
+				else if (x == 5)
+					return "Move2";
+				else
+					return "Move3";
+			}
+
+			function facing(f) {
+				if (f == 0)
+					return "Up";
+				else if (f == 1)
+					return "Right";
+				else if (f == 2)
+					return "Down";
+				else
+					return "Left";
 			}
 
 			setOrientation(<%=ViewState["Facing"]%>);

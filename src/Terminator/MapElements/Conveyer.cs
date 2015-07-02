@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WiRK.Terminator
 {
@@ -21,13 +22,13 @@ namespace WiRK.Terminator
 				|| entrance == Orientation.Right && Exit == Orientation.Bottom
 				|| entrance == Orientation.Bottom && Exit == Orientation.Left
 				|| entrance == Orientation.Left && Exit == Orientation.Top)
-				return Rotation.Clockwise;
+				return Rotation.CounterClockwise;
 
 			if (entrance == Orientation.Top && Exit == Orientation.Left
 				|| entrance == Orientation.Left && Exit == Orientation.Bottom
 				|| entrance == Orientation.Bottom && Exit == Orientation.Right
 				|| entrance == Orientation.Right && Exit == Orientation.Top)
-				return Rotation.CounterClockwise;
+				return Rotation.Clockwise;
 
 			throw new InvalidOperationException();
 		}
@@ -42,6 +43,11 @@ namespace WiRK.Terminator
 		{
 			Entrances = new List<Orientation>(enter);
 			Exit = exit;
+
+			if (Entrances.Any(entrance => entrance == Exit))
+			{
+				throw new InvalidOperationException("Cannot exit same way you enter!");
+			}
 		}
 
 		public Conveyer()
@@ -55,9 +61,9 @@ namespace WiRK.Terminator
 			Coordinate target = robot.Position;
 
 			if (Exit == Orientation.Bottom)
-				target.Y -= 1;
-			else if (Exit == Orientation.Top)
 				target.Y += 1;
+			else if (Exit == Orientation.Top)
+				target.Y -= 1;
 			else if (Exit == Orientation.Left)
 				target.X -= 1;
 			else

@@ -64,6 +64,8 @@
     <Content Include="Default.aspx" />
     <Content Include="Images\ResultArrow.png" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\twirkit - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />

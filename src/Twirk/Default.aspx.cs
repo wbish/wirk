@@ -19,8 +19,9 @@ namespace WiRK.TwirkIt
 
 		protected void btnRunSimulations_OnClick(object sender, EventArgs e)
 		{
+			var deck = new Deck();
 			List<int> position = Request.Form["robotPosition"].Split(',').Select(int.Parse).ToList();
-			var cards = Request.Form["cards"].Split(',').Select(int.Parse);
+			var cards = Request.Form["cards"].Split(',').Select(x => GetCardPriority(deck, x));
 
 			var robot = new Robot 
 			{
@@ -44,6 +45,26 @@ namespace WiRK.TwirkIt
 			ViewState["Cards"] = Request.Form["cards"];
 
 			ClientScript.RegisterClientScriptBlock(GetType(), "results", "results = " + JsonConvert.SerializeObject(productiveResults, Formatting.Indented), true);
+		}
+
+		private int GetCardPriority(Deck deck, string card)
+		{
+			if (card.Equals("U", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.UTurn);
+			if (card.Equals("L", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.RotateLeft);
+			if (card.Equals("R", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.RotateRight);
+			if (card.Equals("B", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.BackUp);
+			if (card.Equals("1", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.Move1);
+			if (card.Equals("2", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.Move2);
+			if (card.Equals("3", StringComparison.InvariantCultureIgnoreCase))
+				return deck.GetCard(ProgramCardType.Move3);
+
+			return int.Parse(card);
 		}
 	}
 }

@@ -6,9 +6,6 @@
 <head runat="server">
 	<title>Twirk It!</title>
 	<script type='text/javascript' src='Scripts/jquery-2.1.4.js'></script>
-	<script type="text/javascript">
-		var results = null;
-	</script>
 	<style>
 		.robot {
 			width: 48px;
@@ -25,6 +22,10 @@
 			background: url('Images/ResultArrow.png');
 		}
 
+		.grayedOutRegister {
+			color: lightgray;
+		}
+
 		#map {
 			background: url('Images/ScottRallyMap.png');
 			background-size: 100%;
@@ -39,39 +40,10 @@
 		<h1>Twirk It!</h1>
 		<h2>William's Robots Calculator (WiRK)</h2>
 		<div>
-			<script type="text/javascript">
-				function ValidateSimulate() {
-					var cards = document.getElementById('cards').value;
-
-					if (cards == "") {
-						alert('You need to tell me what cards you have first.');
-						return false;
-					}
-
-					var cardInts = cards.split(",");
-
-					if (cardInts.length < 5) {
-						alert('You should have atleast 5 cards');
-						return false;
-					}
-
-					for (var i = 0; i < cardInts.length; i++) {
-						var cv = cardInts[i];
-
-						if (cv % 10 != 0 || cv < 10 || cv > 840) {
-							alert('Invalid card priority: ' + cv);
-							return false;
-						}
-					}
-
-					return true;
-				}
-			</script>
-
 			<asp:Button runat="server" ID="btnRunSimulations" OnClientClick="return ValidateSimulate();" OnClick="btnRunSimulations_OnClick" Text="Run Simulations!" />
 			<asp:Button runat="server" ID="btnCleanResults" OnClientClick="return cleanResults();" Text="Clean Results" />
 
-			<p>Enter comma seperated list of card priorities</p>
+			<p>Enter comma seperated list of card priorities or move card abbreviations (UTurn = U; BackUp = B, RotateRight = R, RotateLeft = L; Move1 = 1, Move2 = 2, Move3 = 3). For example: 310,20,830,740,600 or L,B,3,2,1</p>
 			<input type="text" id="cards" name="Cards" value="<%=ViewState["Cards"] %>" />
 			<input type="hidden" id="robotPosition" name="RobotPosition" value="<%=ViewState["PosX"]%>,<%=ViewState["PosY"]%>" />
 			<input type="hidden" id="robotOrientation" name="RobotOrientation" value="<%=ViewState["Facing"]%>" />
@@ -93,10 +65,8 @@
 				</td>
 				<td style="vertical-align: top">
 					<div>
-						<p>Results</p>
-						<ul id="results-permutations">
-							
-						</ul>
+						<h2>Results</h2>
+						<div id="results-permutations"></div>
 					</div>
 				</td>
 			</tr>
@@ -106,7 +76,39 @@
 			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/wirk">Make it better!</a></p>
 			<p><a href="javascript:alert('I promise not to look at your cards. Maybe.');">EULA</a></p>
 		</div>
+
 		<script type="text/javascript">
+			function ValidateSimulate() {
+				var cards = document.getElementById('cards').value;
+
+				if (cards == "") {
+					alert('You need to tell me what cards you have first.');
+					return false;
+				}
+
+				var cardInts = cards.split(",");
+
+				if (cardInts.length < 5) {
+					alert('You should have atleast 5 cards');
+					return false;
+				}
+
+				for (var i = 0; i < cardInts.length; i++) {
+					var cv = cardInts[i];
+					var ucv = cv.toUpperCase();
+
+					if (ucv != 'U' && ucv != 'B' && ucv != 'R' && ucv != 'L' && ucv != '1' && ucv != '2' && ucv != '3')
+					{
+						if (cv % 10 != 0 || cv < 10 || cv > 840) {
+							alert('Invalid card priority: ' + cv);
+							return false;
+						}
+					}
+				}
+
+				return true;
+			}
+
 			var TILE_EDGE_SIZE = 48;
 
 			$('#map').on('click', function (e) {
@@ -115,7 +117,7 @@
 
 
 				// We are placing the robot for move calculation
-				if (results == null) {
+				if (typeof results == 'undefined' || results == null) {
 					var currentPosition = document.getElementById("robotPosition").value;
 					var clickedPosition = x + "," + y;
 
@@ -128,21 +130,45 @@
 				else
 				{
 					// We are trying to look at results
-					var resultList = $("#results-permutations");
-					resultList.empty();
-					for (var i = 0; i < results.length; ++i) 
+					var resultsDiv = $("#results-permutations");
+					resultsDiv.empty();
+					
+					for (var j = 5; j > 0; --j)
 					{
-						if (results[i][4].Position.X == x && results[i][4].Position.Y == y) {
-							var cards = "";
-							for (var  j = 0; j < 5; ++j) {
-								cards += cardType(results[i][j].Card) + ' ; ';
+						var inited = false;
+						var listId = "results-register-" + j;
+						for (var i = 0; i < results.length; ++i) 
+						{
+							if (results[i][j-1].Position.X == x && results[i][j-1].Position.Y == y)
+							{
+								if (!inited) {
+									inited = true;
+									resultsDiv.append("<div><h3>Register " + j + "</h3><ul id='" + listId + "'></ul></div>");
+								}
+
+								var cards = "";
+								for (var  k = 0; k < j; ++k) {
+									cards += cardType(results[i][k].Card) + ' ; ';
+								}
+								cards += "Facing == " + facing(results[i][j-1].Facing);
+
+								for (var q = j + 1; q <= 5; ++q)
+								{
+									cards += "<span class='grayedOutRegister'> ; " + cardType(results[i][q-1].Card) + "</span>";
+								}
+
+								var registerList = $("#" + listId);
+								registerList.append("<li class=\"permutation-result\">" + cards + "</li>");
 							}
-							cards += "Facing == " + facing(results[i][4].Facing);
-							resultList.append("<li>" + cards + "</li>");
 						}
 					}
 				}
 			});
+
+			$(".permutation-result").hover(
+				function() { $(".resultRobot").hide(); },
+				function() { $(".resultRobot").show(); }
+			);
 
 			function setOrientation(x)
 			{
@@ -166,7 +192,7 @@
 
 				$(".resultRobot").remove();
 
-				if (results == null)
+				if (typeof results == 'undefined' || results == null)
 					return;
 
 				for (var i = 0; i < results.length; ++i) 

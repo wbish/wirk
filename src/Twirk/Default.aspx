@@ -148,13 +148,14 @@
 
 								var cards = "";
 								for (var  k = 0; k < j; ++k) {
-									cards += cardType(results[i][k].Card) + ' ; ';
+									var damage = results[i][k].Damage > 0 ? " (+" + results[i][k].Damage + " damage)" : "";
+									cards += cardType(results[i][k].Card) + damage + ' ; ';
 								}
 								cards += "Facing == " + facing(results[i][j-1].Facing);
 
-								for (var q = j + 1; q <= 5; ++q)
-								{
-									cards += "<span class='grayedOutRegister'> ; " + cardType(results[i][q-1].Card) + "</span>";
+								for (var q = j + 1; q <= 5; ++q) {
+									var futureDamage = results[i][q - 1].Damage > 0 ? " (+" + results[i][q - 1].Damage + " damage)" : "";
+									cards += "<span class='grayedOutRegister'> ; " + cardType(results[i][q-1].Card) + futureDamage + "</span>";
 								}
 
 								var registerList = $("#" + listId);

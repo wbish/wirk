@@ -7,7 +7,7 @@ namespace WiRK.Terminator
 {
     public class Map
     {
-		public IEnumerable<IEnumerable<ITile>> Squares { private get; set; }
+		public IEnumerable<IEnumerable<ITile>> Squares { internal get; set; }
 
 		/// <summary>
 		/// Get the ITile object at a given coordinate

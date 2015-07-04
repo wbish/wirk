@@ -18,6 +18,7 @@ namespace WiRK.Abacus
 			{
 				robot.Position = position;
 				robot.Facing = facing;
+				robot.Damage = 0;
 				robot.PickUpCards();
 
 				var deck = new Deck();
@@ -29,6 +30,7 @@ namespace WiRK.Abacus
 				}
 
 				robot.Game.StartTurn(false /* Deal Cards */);
+				int previousDamage = 0;
 
 				while (true)
 				{
@@ -38,8 +40,11 @@ namespace WiRK.Abacus
 					{
 						Card = permutation[permutationResult.Count],
 						Position = robot.Position,
-						Facing = robot.Facing
+						Facing = robot.Facing,
+						Damage = robot.Damage - previousDamage
 					});
+
+					previousDamage = robot.Damage;
 
 					if (registersLeft == 0)
 						break;

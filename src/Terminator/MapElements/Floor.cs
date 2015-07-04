@@ -79,5 +79,10 @@ namespace WiRK.Terminator
 
 			return null;
 		}
+
+		public IEnumerable<Tuple<Orientation,WallLaserEdge>> GetLasers()
+		{
+			return Edges.Where(x => x.Item2 is WallLaserEdge).Select(x => new Tuple<Orientation, WallLaserEdge>(x.Item1, (WallLaserEdge)x.Item2));
+		}
 	}
 }

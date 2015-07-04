@@ -9,5 +9,7 @@ namespace WiRK.Abacus
 		public Coordinate Position;
 
 		public Orientation Facing;
+
+		public int Damage;
 	}
 }

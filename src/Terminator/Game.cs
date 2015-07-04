@@ -75,6 +75,8 @@ namespace WiRK.Terminator
 
 				ExecuteGears();
 
+				ExecuteLasers();
+
 				++_register;
 			}
 
@@ -163,6 +165,83 @@ namespace WiRK.Terminator
 					gear.Rotate(robot);
 				}
 			}
+		}
+
+		private void ExecuteLasers()
+		{
+			for (int y = 0; y < Board.Squares.Count(); ++y)
+			{
+				for (int x = 0; x < Board.Squares.ElementAt(y).Count(); ++x)
+				{
+					var pos = new Coordinate { X = x, Y = y };
+					var floor = Board.GetTile(pos) as Floor;
+
+					if (floor == null)
+						continue;
+
+					foreach (var laserEdge in floor.GetLasers())
+					{
+						bool skipFirst = true;
+						Func<Coordinate, Coordinate> traverser = GetLaserIterator(laserEdge.Item1);
+
+						for (var p = new Coordinate { X = x, Y = y }; ; p = traverser(p))
+						{
+							ITile tile = Board.GetTile(p);
+
+							if (tile == null)
+								break;
+							if (tile is Pit)
+								continue;
+
+							var floorTile = (Floor) tile;
+
+							// If it hits a wall entering a tile then laser stops
+							// The first time we enter this loop it the actual laser doing the firing, so it does
+							// not make sense to stop on a collision with it.
+							if (!skipFirst)
+							{
+								if (floorTile.GetEdge(laserEdge.Item1) != null)
+								{
+									break;
+								}
+							}
+							skipFirst = false;
+
+							// If the laser collides with a bot, it deals damage and stops the laser
+							Robot robot = RobotAt(p);
+							if (robot != null) // hit!
+							{
+								robot.Damage += laserEdge.Item2.Lasers;
+								break;
+							}
+
+							// If the laser collides with a wall while exiting a tile then the laser stops
+							if (floorTile.GetEdge(Utilities.GetOppositeOrientation(laserEdge.Item1)) != null)
+							{
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private Func<Coordinate, Coordinate> GetLaserIterator(Orientation orientation)
+		{
+			if (orientation == Orientation.Top)
+				return c => { c.Y = c.Y + 1; return c; };
+			if (orientation == Orientation.Bottom)
+				return c => { c.Y = c.Y - 1; return c; };
+			if (orientation == Orientation.Left)
+				return c => { c.X = c.X + 1; return c; };
+
+			// Right
+			return c => { c.X = c.X - 1; return c; };
+		}
+
+		private Robot RobotAt(Coordinate position)
+		{
+			return Robots.FirstOrDefault(robot => robot.Position.X == position.X && robot.Position.Y == position.Y);
 		}
 	}
 }

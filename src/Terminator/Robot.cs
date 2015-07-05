@@ -26,6 +26,69 @@ namespace WiRK.Terminator
 			Game = game;
 		}
 
+		public int CardAtRegister(int register)
+		{
+			if (register > Constants.RobotRegisters || register < 1)
+				throw new ArgumentException("Invalid register");
+
+			return Cards.First(x => x.Register == register).Card;
+		}
+
+		public void DealCard(int priority, int register = 0)
+		{
+			Cards.Add(new RobotCard { Card = priority, Register = register });
+		}
+
+		/// <summary>
+		/// Cards that can be placed. Not current placed.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<int> CardsToPlace()
+		{
+			return new List<int>(from card in Cards where card.Register == 0 select card.Card);
+		}
+
+		/// <summary>
+		/// Place a card on a register
+		/// </summary>
+		/// <param name="card">Card to place</param>
+		/// <param name="register">Register to set on</param>
+		public void PlaceCard(int card, int register)
+		{
+			RobotCard c = Cards.First(x => x.Card == card);
+			c.Register = register;
+		}
+
+		/// <summary>
+		/// Picks up all cards not locked by damage
+		/// </summary>
+		/// <returns>Cards picked up</returns>
+		public IEnumerable<int> PickUpCards()
+		{
+			var cardsToPickUp = new List<int>();
+			int keepCardsAtRegistersOrBelow = Constants.RobotRegisters - LockedRegisters();
+
+			Cards = Cards.OrderBy(x => x.Register).ToList();
+			int count = Cards.Count;
+			for (int i = 0; i < count; ++i)
+			{
+				if (Cards.First().Register <= keepCardsAtRegistersOrBelow)
+				{
+					cardsToPickUp.Add(Cards.First().Card);
+					Cards.RemoveAt(0);
+					continue;
+				}
+
+				break;
+			}
+
+			return cardsToPickUp;
+		}
+
+		/// <summary>
+		/// Execute card at register
+		/// </summary>
+		/// <param name="register">Register</param>
 		public void ExecuteMove(int register)
 		{
 			if (register > Constants.RobotRegisters || register < 1)
@@ -37,7 +100,7 @@ namespace WiRK.Terminator
 			ExecuteMove(card);
 		}
 
-		internal void ExecuteMove(ProgramCardType card)
+		private void ExecuteMove(ProgramCardType card)
 		{
 			ITile currentTile = Game.Board.GetTile(Position);
 			if (currentTile == null)
@@ -77,23 +140,14 @@ namespace WiRK.Terminator
 			RotateLeft();
 		}
 
-		internal void RotateLeft()
+		private void RotateLeft()
 		{
-			if (Facing == Orientation.Bottom)
-				Facing = Orientation.Right;
-			else if (Facing == Orientation.Right)
-				Facing = Orientation.Top;
-			else if (Facing == Orientation.Top)
-				Facing = Orientation.Left;
-			else
-				Facing = Orientation.Bottom;
+			Facing = Utilities.CounterclockwiseRotation(Facing);
 		}
 
-		internal void RotateRight()
+		private void RotateRight()
 		{
-			RotateLeft();
-			RotateLeft();
-			RotateLeft();
+			Facing = Utilities.ClockwiseRotation(Facing);
 		}
 
 		private void BackUp()
@@ -172,65 +226,6 @@ namespace WiRK.Terminator
 			Move1();
 			Move1();
 			Move1();
-		}
-
-		public int CardAtRegister(int register)
-		{
-			if (register > Constants.RobotRegisters || register < 1)
-				throw new ArgumentException("Invalid register");
-
-			return Cards.First(x => x.Register == register).Card;
-		}
-
-		public void DealCard(int priority, int register = 0)
-		{
-			Cards.Add(new RobotCard { Card = priority, Register = register});
-		}
-
-		/// <summary>
-		/// Cards that can be placed. Not current placed.
-		/// </summary>
-		/// <returns></returns>
-		public IEnumerable<int> CardsToPlace()
-		{
-			return new List<int>(from card in Cards where card.Register == 0 select card.Card);
-		}
-
-		/// <summary>
-		/// Place a card on a register
-		/// </summary>
-		/// <param name="card">Card to place</param>
-		/// <param name="register">Register to set on</param>
-		public void PlaceCard(int card, int register)
-		{
-			RobotCard c = Cards.First(x => x.Card == card);
-			c.Register = register;
-		}
-
-		/// <summary>
-		/// Picks up all cards not locked by damage
-		/// </summary>
-		/// <returns>Cards picked up</returns>
-		public IEnumerable<int> PickUpCards()
-		{
-			var cardsToPickUp = new List<int>();
-			int keepCardsAtRegistersOrBelow = Constants.RobotRegisters - LockedRegisters();
-
-			Cards = Cards.OrderBy(x => x.Register).ToList();
-			int count = Cards.Count;
-			for (int i = 0; i < count; ++i)
-			{
-				if (Cards.First().Register <= keepCardsAtRegistersOrBelow)
-				{
-					cardsToPickUp.Add(Cards.First().Card);
-					Cards.RemoveAt(0);
-					continue;
-				}
-
-				break;
-			}
-
-			return cardsToPickUp;
 		}
 
 		private int LockedRegisters()

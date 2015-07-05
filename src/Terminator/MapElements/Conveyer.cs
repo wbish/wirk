@@ -82,9 +82,9 @@ namespace WiRK.Terminator
 			{
 				Rotation rotation = conveyer.ConveyerRotation(Utilities.GetOppositeOrientation(Exit));
 				if (rotation == Rotation.Clockwise)
-					robot.RotateRight();
+					robot.Facing = Utilities.ClockwiseRotation(robot.Facing);
 				else if (rotation == Rotation.CounterClockwise)
-					robot.RotateLeft();
+					robot.Facing = Utilities.CounterclockwiseRotation(robot.Facing);
 			}
 
 			robot.Position = target;

@@ -20,5 +20,27 @@ namespace WiRK.Terminator
 					throw new ArgumentException("orientation");
 			}
 		}
+
+		public static Orientation ClockwiseRotation(Orientation orientation)
+		{
+			if (orientation == Orientation.Bottom)
+				return Orientation.Left;
+			if (orientation == Orientation.Right)
+				return Orientation.Bottom;
+			if (orientation == Orientation.Top)
+				return Orientation.Right;
+			return Orientation.Top;
+		}
+
+		public static Orientation CounterclockwiseRotation(Orientation orientation)
+		{
+			if (orientation == Orientation.Bottom)
+				return Orientation.Right;
+			if (orientation == Orientation.Right)
+				return Orientation.Top;
+			if (orientation == Orientation.Top)
+				return Orientation.Left;
+			return Orientation.Bottom;
+		}
 	}
 }

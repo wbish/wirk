@@ -6,6 +6,7 @@
 <head runat="server">
 	<title>Twirk It!</title>
 	<script type='text/javascript' src='Scripts/jquery-2.1.4.js'></script>
+	<%-- ReSharper disable CssBrowserCompatibility --%>
 	<style>
 		.robot {
 			width: 48px;
@@ -34,6 +35,7 @@
 			position: relative;
 		}
 	</style>
+	<%-- ReSharper restore CssBrowserCompatibility --%>
 </head>
 <body>
 	<form id="form1" runat="server">
@@ -77,6 +79,7 @@
 			<p><a href="javascript:alert('I promise not to look at your cards. Maybe.');">EULA</a></p>
 		</div>
 
+		<%-- ReSharper disable once AssignToImplicitGlobalInFunctionScope --%>
 		<script type="text/javascript">
 			function ValidateSimulate() {
 				var cards = document.getElementById('cards').value;

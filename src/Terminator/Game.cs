@@ -10,17 +10,22 @@ namespace WiRK.Terminator
 		private int _register;
 
 		public Game()
+			: this(new Map(), new List<Robot>())
 		{
-			Cards = new Deck();
-			Robots = new List<Robot>();
-			Board = new Map();
 		}
 
-		public Map Board { get; set; }
+		public Game(Map map, IEnumerable<Robot> robots)
+		{
+			Cards = new Deck();
+			Board = map;
+			Robots = robots;
+		}
 
-		public IEnumerable<Robot> Robots { get; set; }
+		public Map Board { get; internal set; }
 
-		public Deck Cards { get; set; }
+		public IEnumerable<Robot> Robots { get; internal set; }
+
+		private Deck Cards { get; set; }
 
 		public void Initialize()
 		{
@@ -38,6 +43,10 @@ namespace WiRK.Terminator
 			StartTurn(true /* dealCards */);
 		}
 
+		/// <summary>
+		/// Called at the start of each turn
+		/// </summary>
+		/// <param name="dealCards">Deal cards to robots. Default is true. Overwritten for simulation.</param>
 		internal void StartTurn(bool dealCards)
 		{
 			if (dealCards)

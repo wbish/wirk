@@ -7,7 +7,14 @@ namespace WiRK.Abacus
 {
     public static class Simulator
     {
-		public static List<List<CardExecutionResult>> RunSimulations(Robot robot)
+		/// <summary>
+		/// Runs simulations on moves based on the cards the robot currently has assigned. 
+		/// Robot is expected to be initialized and part of an existing Game.
+		/// The robot will not be in the same state after simulation is executed.
+		/// </summary>
+		/// <param name="robot">Robot to run simulations for</param>
+		/// <returns>List of results</returns>
+		public static List<List<CardExecutionResult>> Simulate(Robot robot)
 		{
 			var results = new List<List<CardExecutionResult>>(); 
 			List<List<ProgramCardType>> permutations = CalculateMovePermutations(robot);
@@ -25,8 +32,8 @@ namespace WiRK.Abacus
 				var permutationResult = new List<CardExecutionResult>();
 				for (int i = 0 ; i < permutation.Count; ++i)
 				{
-					int priority = deck.GetCard(permutation[i]);
-					robot.DealCard(priority, i + 1);
+					var card = deck.GetCard(permutation[i]);
+					robot.DealCard(card.Priority, i + 1);
 				}
 
 				robot.Game.StartTurn(false /* Deal Cards */);
@@ -69,7 +76,7 @@ namespace WiRK.Abacus
 
 			// This is the list of cards that can be placed. Locked registers are not included in this list
 			// and should be appended to the end of each list if necessary
-			IEnumerable<ProgramCardType> cards = robot.CardsToPlace().Select(ProgramCard.GetCardByPriority);
+			IEnumerable<ProgramCardType> cards = robot.CardsToPlace().Select(ProgramCard.GetCardTypeByPriority);
 			var root = new PermutationNode();
 
 			BuildCardPermutationTree(root, cards);

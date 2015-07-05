@@ -4,8 +4,18 @@ using System.Linq;
 
 namespace WiRK.Terminator
 {
-	public static class ProgramCard
+	public class ProgramCard
 	{
+		public int Priority { get; private set; }
+
+		public ProgramCardType CardType { get; private set; }
+
+		public ProgramCard(int priority)
+		{
+			Priority = priority;
+			CardType = GetCardTypeByPriority(priority);
+		}
+
 		public static readonly IEnumerable<Tuple<ProgramCardType, IEnumerable<int>>> ProgramCardPriorities = new List
 			<Tuple<ProgramCardType, IEnumerable<int>>>
 		{
@@ -25,7 +35,7 @@ namespace WiRK.Terminator
 				new List<int> {790, 800, 810, 820, 830, 840}),
 		};
 
-		public static ProgramCardType GetCardByPriority(int priority)
+		public static ProgramCardType GetCardTypeByPriority(int priority)
 		{
 			if (priority < LowestPriorityCard || priority > HighestPriorityCard)
 				throw new IndexOutOfRangeException("Priority must be between 10 and 840");

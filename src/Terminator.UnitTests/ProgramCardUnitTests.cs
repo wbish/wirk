@@ -14,7 +14,7 @@ namespace WiRK.Terminator.UnitTests
 			const int priority = 850;
 
 			// Act
-			ProgramCardType cardType = ProgramCard.GetCardByPriority(priority);
+			ProgramCardType cardType = ProgramCard.GetCardTypeByPriority(priority);
 		}
 
 		[TestMethod]
@@ -25,7 +25,7 @@ namespace WiRK.Terminator.UnitTests
 			const int priority = 615;
 
 			// Act
-			ProgramCardType cardType = ProgramCard.GetCardByPriority(priority);
+			ProgramCardType cardType = ProgramCard.GetCardTypeByPriority(priority);
 		}
 
 		[TestMethod]
@@ -35,7 +35,7 @@ namespace WiRK.Terminator.UnitTests
 			const int priority = 560;
 
 			// Act
-			ProgramCardType cardType = ProgramCard.GetCardByPriority(priority);
+			ProgramCardType cardType = ProgramCard.GetCardTypeByPriority(priority);
 
 			// Assert
 			Assert.AreEqual(ProgramCardType.Move1, cardType, "Move 1");

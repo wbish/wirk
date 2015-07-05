@@ -50,7 +50,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PermutationsUnitTests.cs" />
     <Compile Include="SimulatorUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>

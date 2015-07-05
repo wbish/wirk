@@ -9,15 +9,15 @@ namespace WiRK.Terminator
 		private readonly static Random Dealer = new Random(1337);
 		internal const int CardsPerRobot = 9;
 
-		private List<int> Cards { get; set; }
+		private List<ProgramCard> Cards { get; set; }
 
 		public Deck()
 		{
-			Cards = new List<int>();
+			Cards = new List<ProgramCard>();
 
-			for (var i = ProgramCard.LowestPriorityCard; i <= ProgramCard.HighestPriorityCard; i += 10)
+			for (var priority = ProgramCard.LowestPriorityCard; priority <= ProgramCard.HighestPriorityCard; priority += 10)
 			{
-				Cards.Add(i);
+				Cards.Add(new ProgramCard(priority));
 			}
 
 			Shuffle();
@@ -25,7 +25,7 @@ namespace WiRK.Terminator
 
 		public void Shuffle()
 		{
-			var available = new List<int>(Cards);
+			var available = new List<ProgramCard>(Cards);
 			Cards.Clear();
 
 			while (available.Count > 0)
@@ -40,7 +40,7 @@ namespace WiRK.Terminator
 		{
 			foreach (var robot in robots)
 			{
-				Cards.AddRange(robot.PickUpCards());
+				Cards.AddRange(robot.PickUpCards().Select(x => new ProgramCard(x)));
 			}
 		}
 
@@ -48,20 +48,20 @@ namespace WiRK.Terminator
 		{
 			foreach (var robot in robots)
 			{
-				robot.DealCard(Cards.First());
+				robot.DealCard(Cards.First().Priority);
 				Cards.RemoveAt(0);
 			}
 		}
 
-		public int GetCard(ProgramCardType cardType)
+		public ProgramCard GetCard(ProgramCardType cardType)
 		{
-			foreach (var card in Cards)
+			foreach (var card in Cards.Where(card => card.CardType == cardType))
 			{
-				if (ProgramCard.GetCardByPriority(card) == cardType)
-					return card;
+				Cards.Remove(card);
+				return card;
 			}
 
-			return -1;
+			return null;
 		}
 	}
 }

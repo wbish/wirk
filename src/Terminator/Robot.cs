@@ -14,8 +14,6 @@ namespace WiRK.Terminator
 
 		public int Damage { get; set; }
 
-		public bool IsPoweredDown { get; set; }
-
 		private List<RobotCard> Cards { get; set; }
 
 		public Robot()
@@ -34,7 +32,7 @@ namespace WiRK.Terminator
 				throw new ArgumentException("Invalid register");
 
 			int priority = CardAtRegister(register);
-			ProgramCardType card = ProgramCard.GetCardByPriority(priority);
+			ProgramCardType card = ProgramCard.GetCardTypeByPriority(priority);
 
 			ExecuteMove(card);
 		}
@@ -233,23 +231,6 @@ namespace WiRK.Terminator
 			}
 
 			return cardsToPickUp;
-		}
-
-		/// <summary>
-		/// Unplace a card from a register.
-		/// </summary>
-		public void ResetCards()
-		{
-			int resetCardsAtRegisterOrBelow = Constants.RobotRegisters - LockedRegisters();
-
-			Cards = Cards.OrderBy(x => x.Register).ToList();
-			foreach (var card in Cards)
-			{
-				if (card.Register <= resetCardsAtRegisterOrBelow)
-				{
-					card.Register = 0;
-				}
-			}
 		}
 
 		private int LockedRegisters()

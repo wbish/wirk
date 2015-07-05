@@ -46,7 +46,6 @@
     <Compile Include="CardExecutionResult.cs" />
     <Compile Include="Maps.cs" />
     <Compile Include="PermutationNode.cs" />
-    <Compile Include="Permutations.cs" />
     <Compile Include="Simulator.cs" />
     <Compile Include="VisualStudioAssemblyInfo.cs" />
   </ItemGroup>

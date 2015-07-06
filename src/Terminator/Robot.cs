@@ -6,7 +6,7 @@ namespace WiRK.Terminator
 {
 	public class Robot
 	{
-		internal Game Game { get; set; }
+		internal Game Game { get; private set; }
 
 		public Coordinate Position { get; set; }
 
@@ -102,7 +102,7 @@ namespace WiRK.Terminator
 
 		private void ExecuteMove(ProgramCardType card)
 		{
-			ITile currentTile = Game.Board.GetTile(Position);
+			ITile currentTile = Game.Board.Tile(Position);
 			if (currentTile == null)
 				return; // This robot is not on the board
 
@@ -159,7 +159,7 @@ namespace WiRK.Terminator
 
 		private void Move1()
 		{
-			var current = Game.Board.GetTile(Position) as Floor;
+			var current = Game.Board.Tile<Floor>(Position);
 
 			if (current == null)
 			{
@@ -193,12 +193,12 @@ namespace WiRK.Terminator
 			}
 
 			var target = new Coordinate {X = x, Y = y};
-			ITile targetTile = Game.Board.GetTile(target);
+			ITile targetTile = Game.Board.Tile(target);
 
 			if (targetTile == null || targetTile.GetType() == typeof(Pit))
 			{
 				// BUG: Do we need a IsDead property or is invalid position good enough?
-				Position = new Coordinate {X = -1, Y = -1};
+				Position = Coordinate.OutOfBounds;
 				return;
 			}
 

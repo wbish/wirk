@@ -15,7 +15,7 @@ namespace WiRK.Terminator.UnitTests
 
 			// Assert
 			Assert.IsNotNull(map);
-			Assert.IsInstanceOfType(map.GetTile(new Coordinate {X = 0, Y = 0}), typeof (Wrench), "Square is Wrench");
+			Assert.IsInstanceOfType(map.Tile(new Coordinate {X = 0, Y = 0}), typeof (Wrench), "Square is Wrench");
 		}
 
 		[TestMethod]
@@ -40,7 +40,7 @@ namespace WiRK.Terminator.UnitTests
 			var map = new Map { Squares = squares };
 
 			// Act
-			ITile tile = map.GetTile(new Coordinate {X = 1, Y = 0});
+			ITile tile = map.Tile(new Coordinate {X = 1, Y = 0});
 
 			// Assert
 			Assert.IsNull(tile);

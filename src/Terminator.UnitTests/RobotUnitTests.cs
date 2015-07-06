@@ -135,7 +135,7 @@ namespace WiRK.Terminator.UnitTests
 			var robot = new Robot { Position = position, Facing = Orientation.Right };
 			robot.DealCard(card);
 			robot.PlaceCard(card, 1 /* register */);
-			var game = new Game { Board = { Squares = Maps.GetMap(Maps.MapLayouts.ScottRallyMap) }, Robots = new List<Robot> { robot } };
+			var game = new Game(new Map {Squares = Maps.GetMap(Maps.MapLayouts.ScottRallyMap)}, new List<Robot> {robot});
 			game.Initialize();
 
 			return robot;

@@ -14,11 +14,21 @@ namespace WiRK.Terminator
 			Direction = direction;
 		}
 
+		public override void Execute(Game game, TileExecution execution)
+		{
+			if (execution == TileExecution.Gear)
+			{
+				Rotate(RobotOnTile(game));
+			}
+
+			base.Execute(game, execution);
+		}
+
 		/// <summary>
 		/// Rotate the robot
 		/// </summary>
 		/// <param name="robot">Robot to rotate</param>
-		public void Rotate(Robot robot)
+		private void Rotate(Robot robot)
 		{
 			if (robot == null)
 				throw new ArgumentNullException("robot");

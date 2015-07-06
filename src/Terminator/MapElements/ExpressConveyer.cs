@@ -17,5 +17,15 @@ namespace WiRK.Terminator.MapElements
 		public ExpressConveyer()
 		{
 		}
+
+		public override void Execute(Game game, TileExecution execution)
+		{
+			if (execution == TileExecution.ExpressConveyer)
+			{
+				Convey(RobotOnTile(game));
+			}
+
+			base.Execute(game, execution);
+		}
 	}
 }

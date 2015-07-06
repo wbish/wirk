@@ -16,7 +16,7 @@ namespace WiRK.Terminator
 			CardType = GetCardTypeByPriority(priority);
 		}
 
-		public static readonly IEnumerable<Tuple<ProgramCardType, IEnumerable<int>>> ProgramCardPriorities = new List
+		internal static readonly IEnumerable<Tuple<ProgramCardType, IEnumerable<int>>> ProgramCardPriorities = new List
 			<Tuple<ProgramCardType, IEnumerable<int>>>
 		{
 			new Tuple<ProgramCardType, IEnumerable<int>>(ProgramCardType.UTurn, 

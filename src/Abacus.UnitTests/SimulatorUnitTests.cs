@@ -43,7 +43,7 @@ namespace Abacus.UnitTests
 			robot.DealCard(430);	// BackUp
 			robot.DealCard(490);	// Move1
 			robot.DealCard(500);	// Move1
-			var game = new Game { Board = { Squares = Maps.GetMap(Maps.MapLayouts.ScottRallyMap) }, Robots = new List<Robot> { robot } };
+			var game = new Game(new Map {Squares = Maps.GetMap(Maps.MapLayouts.ScottRallyMap)}, new List<Robot> {robot});
 			game.Initialize();
 			
 			// Act

@@ -31,7 +31,7 @@ namespace WiRK.Terminator
 				return;
 
 			Coordinate target = robot.Position;
-			Floor floorTile = robot.Game.Board.GetTile(robot.Position) as Floor;
+			var floorTile = robot.Game.Board.Tile<Floor>(robot.Position);
 
 			if (floorTile == null)
 				return;
@@ -55,11 +55,11 @@ namespace WiRK.Terminator
 						return;
 					}
 
-					ITile targetTile = robot.Game.Board.GetTile(target);
+					ITile targetTile = robot.Game.Board.Tile(target);
 					if (targetTile == null || targetTile is Pit)
 					{
 						// pushed to death;
-						robot.Position = new Coordinate {X = -1, Y = -1};
+						robot.Position = Coordinate.OutOfBounds;
 						return;
 					}
 

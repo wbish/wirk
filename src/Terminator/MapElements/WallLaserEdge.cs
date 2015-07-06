@@ -17,6 +17,6 @@
 			Lasers = lasers;
 		}
 
-		public int Lasers { get; set; }
+		public int Lasers { get; private set; }
 	}
 }

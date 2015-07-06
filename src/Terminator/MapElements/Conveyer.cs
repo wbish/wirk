@@ -10,7 +10,63 @@ namespace WiRK.Terminator
 
 		public Orientation Exit { get; internal set; }
 
-		public Rotation ConveyerRotation(Orientation entrance)
+		public Conveyer(Orientation enter, Orientation exit)
+			: this(new[] { enter }, exit)
+		{
+		}
+
+		public Conveyer(IEnumerable<Orientation> enter, Orientation exit)
+		{
+			Entrances = new List<Orientation>(enter);
+			Exit = exit;
+
+			if (Entrances.Any(entrance => entrance == Exit))
+			{
+				throw new InvalidOperationException("Cannot exit same way you enter!");
+			}
+		}
+
+		public Conveyer()
+		{
+
+		}
+
+		public override void Execute(Game game, TileExecution execution)
+		{
+			if (execution == TileExecution.Conveyer)
+			{
+				Convey(RobotOnTile(game));
+			}
+
+			base.Execute(game, execution);
+		}
+
+		protected void Convey(Robot robot)
+		{
+			Coordinate target = TargetCoordinate(robot.Position);
+
+			ITile targetTile = robot.Game.Board.Tile(target);
+			if (targetTile == null || targetTile is Pit)
+			{
+				// Robot conveyed off the board or into a pit
+				robot.Position = Coordinate.OutOfBounds;
+				return;
+			}
+
+			var conveyer = targetTile as Conveyer;
+			if (conveyer != null)
+			{
+				Rotation rotation = conveyer.ConveyerRotation(Utilities.GetOppositeOrientation(Exit));
+				if (rotation == Rotation.Clockwise)
+					robot.Facing = Utilities.ClockwiseRotation(robot.Facing);
+				else if (rotation == Rotation.CounterClockwise)
+					robot.Facing = Utilities.CounterclockwiseRotation(robot.Facing);
+			}
+
+			robot.Position = target;
+		}
+
+		private Rotation ConveyerRotation(Orientation entrance)
 		{
 			if (entrance == Orientation.Top && Exit == Orientation.Bottom
 				|| entrance == Orientation.Bottom && Exit == Orientation.Top
@@ -33,32 +89,9 @@ namespace WiRK.Terminator
 			throw new InvalidOperationException();
 		}
 
-		public Conveyer(Orientation enter, Orientation exit)
-			: this(new[] { enter }, exit)
+		private Coordinate TargetCoordinate(Coordinate origin)
 		{
-
-		}
-
-		public Conveyer(IEnumerable<Orientation> enter, Orientation exit)
-		{
-			Entrances = new List<Orientation>(enter);
-			Exit = exit;
-
-			if (Entrances.Any(entrance => entrance == Exit))
-			{
-				throw new InvalidOperationException("Cannot exit same way you enter!");
-			}
-		}
-
-		public Conveyer()
-		{
-
-		}
-
-		public void Convey(Robot robot)
-		{
-			// Convey the robot a single square
-			Coordinate target = robot.Position;
+			Coordinate target = origin;
 
 			if (Exit == Orientation.Bottom)
 				target.Y += 1;
@@ -69,25 +102,7 @@ namespace WiRK.Terminator
 			else
 				target.X += 1;
 
-			ITile targetTile = robot.Game.Board.GetTile(target);
-			if (targetTile == null || targetTile is Pit)
-			{
-				// Robot conveyed off the board or into a pit
-				robot.Position = new Coordinate {X = -1, Y = -1};
-				return;
-			}
-
-			var conveyer = targetTile as Conveyer;
-			if (conveyer != null)
-			{
-				Rotation rotation = conveyer.ConveyerRotation(Utilities.GetOppositeOrientation(Exit));
-				if (rotation == Rotation.Clockwise)
-					robot.Facing = Utilities.ClockwiseRotation(robot.Facing);
-				else if (rotation == Rotation.CounterClockwise)
-					robot.Facing = Utilities.CounterclockwiseRotation(robot.Facing);
-			}
-
-			robot.Position = target;
+			return target;
 		}
 	}
 }

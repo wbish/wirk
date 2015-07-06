@@ -9,21 +9,21 @@ namespace WiRK.Terminator
 	{
 		private int _register;
 
-		public Game()
-			: this(new Map(), new List<Robot>())
-		{
-		}
-
 		public Game(Map map, IEnumerable<Robot> robots)
 		{
+			if (map == null)
+				throw new ArgumentNullException("map");
+			if (robots == null)
+				throw new ArgumentNullException("robots");
+			
 			Cards = new Deck();
 			Board = map;
 			Robots = robots;
 		}
 
-		public Map Board { get; internal set; }
+		public Map Board { get; private set; }
 
-		public IEnumerable<Robot> Robots { get; internal set; }
+		public IEnumerable<Robot> Robots { get; private set; }
 
 		private Deck Cards { get; set; }
 
@@ -78,7 +78,7 @@ namespace WiRK.Terminator
 
 				ExecuteExpressConveyers();
 
-				ExecuteAllConveyers();
+				ExecuteConveyers();
 
 				ExecutePushers();
 
@@ -123,26 +123,18 @@ namespace WiRK.Terminator
 		private void ExecuteExpressConveyers()
 		{
 			// Express conveyers convey 1 square
-			foreach (var robot in Robots)
+			foreach (var conveyer in Robots.Select(robot => Board.Tile<ExpressConveyer>(robot.Position)).Where(conveyer => conveyer != null))
 			{
-				var conveyer = Board.GetTile(robot.Position) as ExpressConveyer;
-				if (conveyer != null)
-				{
-					conveyer.Convey(robot);
-				}
+				conveyer.Execute(this, TileExecution.ExpressConveyer);
 			}
 		}
 
-		private void ExecuteAllConveyers()
+		private void ExecuteConveyers()
 		{
 			// Express and Normal conveyers convey 1 square
-			foreach (var robot in Robots)
+			foreach (var conveyer in Robots.Select(robot => Board.Tile<Conveyer>(robot.Position)).Where(conveyer => conveyer != null))
 			{
-				var conveyer = Board.GetTile(robot.Position) as Conveyer;
-				if (conveyer != null)
-				{
-					conveyer.Convey(robot);
-				}
+				conveyer.Execute(this, TileExecution.Conveyer);
 			}
 		}
 
@@ -151,7 +143,7 @@ namespace WiRK.Terminator
 			// Pushers push if active for register
 			foreach (var robot in Robots)
 			{
-				var floor = Board.GetTile(robot.Position) as Floor;
+				var floor = Board.Tile<Floor>(robot.Position);
 				if (floor != null)
 				{
 					var pusher = floor.GetPusher();
@@ -165,14 +157,9 @@ namespace WiRK.Terminator
 
 		private void ExecuteGears()
 		{
-			// Gears rotate 
-			foreach (var robot in Robots)
+			foreach (var gear in Robots.Select(robot => Board.Tile<Gear>(robot.Position)).Where(gear => gear != null))
 			{
-				var gear = Board.GetTile(robot.Position) as Gear;
-				if (gear != null)
-				{
-					gear.Rotate(robot);
-				}
+				gear.Execute(this, TileExecution.Gear);
 			}
 		}
 
@@ -183,7 +170,7 @@ namespace WiRK.Terminator
 				for (int x = 0; x < Board.Squares.ElementAt(y).Count(); ++x)
 				{
 					var pos = new Coordinate { X = x, Y = y };
-					var floor = Board.GetTile(pos) as Floor;
+					var floor = Board.Tile<Floor>(pos);
 
 					if (floor == null)
 						continue;
@@ -195,7 +182,7 @@ namespace WiRK.Terminator
 
 						for (var p = new Coordinate { X = x, Y = y }; ; p = traverser(p))
 						{
-							ITile tile = Board.GetTile(p);
+							ITile tile = Board.Tile(p);
 
 							if (tile == null)
 								break;
@@ -248,9 +235,9 @@ namespace WiRK.Terminator
 			return c => { c.X = c.X - 1; return c; };
 		}
 
-		private Robot RobotAt(Coordinate position)
+		internal Robot RobotAt(Coordinate position)
 		{
-			return Robots.FirstOrDefault(robot => robot.Position.X == position.X && robot.Position.Y == position.Y);
+			return Robots.FirstOrDefault(robot => robot.Position == position);
 		}
 	}
 }

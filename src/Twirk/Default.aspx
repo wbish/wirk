@@ -36,6 +36,7 @@
 		}
 	</style>
 	<%-- ReSharper restore CssBrowserCompatibility --%>
+	<script type="text/javascript" src="Scripts/tiledmap.js"></script>
 </head>
 <body>
 	<form id="form1" runat="server">
@@ -63,6 +64,7 @@
 						<div id="map">
 							<div id="robot" class="startRobot robot"></div>
 						</div>
+						<div id="tiledMapDiv" style="width:600px;"></div>
 					</div>
 				</td>
 				<td style="vertical-align: top">
@@ -81,6 +83,8 @@
 
 		<%-- ReSharper disable once AssignToImplicitGlobalInFunctionScope --%>
 		<script type="text/javascript">
+			renderTiledMap(document.getElementById("tiledMapDiv"));
+
 			function ValidateSimulate() {
 				var cards = document.getElementById('cards').value;
 
@@ -135,12 +139,12 @@
 					// We are trying to look at results
 					var resultsDiv = $("#results-permutations");
 					resultsDiv.empty();
-					
+
 					for (var j = 5; j > 0; --j)
 					{
 						var inited = false;
 						var listId = "results-register-" + j;
-						for (var i = 0; i < results.length; ++i) 
+						for (var i = 0; i < results.length; ++i)
 						{
 							if (results[i][j-1].Position.X == x && results[i][j-1].Position.Y == y)
 							{
@@ -199,7 +203,7 @@
 				if (typeof results == 'undefined' || results == null)
 					return;
 
-				for (var i = 0; i < results.length; ++i) 
+				for (var i = 0; i < results.length; ++i)
 				{
 					var left = (results[i][4].Position.X * TILE_EDGE_SIZE) + "px";
 					var top = (results[i][4].Position.Y * TILE_EDGE_SIZE) + "px";

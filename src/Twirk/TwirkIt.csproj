@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +64,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Images\ResultArrow.png" />
+    <Content Include="Images\roborally-standard-50dpi-flat-v2.png" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\twirkit - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />
@@ -81,6 +83,7 @@
   <ItemGroup>
     <Content Include="Images\RobotArrow.png" />
     <Content Include="Images\ScottRallyMap.png" />
+    <Content Include="Scripts\tiledmap.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

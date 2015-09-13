@@ -82,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\RobotArrow.png" />
-    <Content Include="Images\ScottRallyMap.png" />
     <Content Include="Scripts\tiledmap.js" />
     <Content Include="Scripts\twirk.js" />
     <Content Include="Web.config" />

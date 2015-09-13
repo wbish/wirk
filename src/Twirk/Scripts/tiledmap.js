@@ -2,6 +2,8 @@
 tile_size = 50;
 board_width = 12;
 board_height = 24;
+
+// Layout is for Maps.MapLayouts.ScottRallyMap
 board_backgrounds =
 [
 	14,  0, 32, 45, 45, 43,  0,  0,  0,  0,  0, 14,

@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +65,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Images\ResultArrow.png" />
     <Content Include="packages.config" />
+    <Content Include="Maps\ScottRallyMap_Manual.rrdl" />
     <None Include="Properties\PublishProfiles\twirkit - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit.pubxml" />

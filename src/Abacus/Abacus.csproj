@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardExecutionResult.cs" />
+    <Compile Include="MapParser.cs" />
     <Compile Include="Maps.cs" />
     <Compile Include="PermutationNode.cs" />
+    <Compile Include="SerializedMap.cs" />
     <Compile Include="Simulator.cs" />
     <Compile Include="VisualStudioAssemblyInfo.cs" />
   </ItemGroup>

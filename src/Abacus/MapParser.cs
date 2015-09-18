@@ -118,7 +118,9 @@ namespace WiRK.Abacus
 			//	};
 			//	serializedMap.Flags.Add(flag);
 			//}
-			else if (tile is Floor)
+
+			// Any flor type can have walls/lasers
+			if (tile is Floor)
 			{
 				if ((tile as Floor).Edges.Any())
 				{
@@ -148,6 +150,19 @@ namespace WiRK.Abacus
 					else
 						laser.EndColumn = laser.Column;
 					serializedMap.Lasers.Add(laser);
+				}
+
+				var pusherWallEdge = (tile as Floor).Edges.FirstOrDefault(p => p.Item2 is WallPusherEdge);
+				if (pusherWallEdge != null)
+				{
+					var pusher = new SerializedPusher()
+					{
+						Row = row,
+						Column = column,
+						Registers = (pusherWallEdge.Item2 as WallPusherEdge).Registers,
+						Wall = pusherWallEdge.Item1.ToString().ToLowerInvariant()
+					};
+					serializedMap.Pushers.Add(pusher);
 				}
 			}
 		}
@@ -201,9 +216,16 @@ namespace WiRK.Abacus
 
 			foreach (var laser in deserializedMap.Lasers)
 			{
-				Orientation laserWall = LaserWallEdgeOrientation(laser);
-				(map[laser.Row, laser.Column] as Floor).Edges.RemoveAll(tup => tup.Item1 == laserWall);
-				(map[laser.Row, laser.Column] as Floor).Edges.Add(new Tuple<Orientation, IEdge>(LaserWallEdgeOrientation(laser), new WallLaserEdge(laser.Damage)));
+				Orientation laserWallEdge = LaserWallEdgeOrientation(laser);
+				(map[laser.Row, laser.Column] as Floor).Edges.RemoveAll(tup => tup.Item1 == laserWallEdge);
+				(map[laser.Row, laser.Column] as Floor).Edges.Add(new Tuple<Orientation, IEdge>(laserWallEdge, new WallLaserEdge(laser.Damage)));
+			}
+
+			foreach (var pusher in deserializedMap.Pushers)
+			{
+				Orientation pusherWallEdge = ParseOrientation(pusher.Wall);
+				(map[pusher.Row, pusher.Column] as Floor).Edges.RemoveAll(tup => tup.Item1 == pusherWallEdge);
+				(map[pusher.Row, pusher.Column] as Floor).Edges.Add(new Tuple<Orientation, IEdge>(pusherWallEdge, new WallPusherEdge(pusher.Registers)));
 			}
 
 			var jaggedArray = new List<List<ITile>>(deserializedMap.Height);

@@ -26,8 +26,9 @@ namespace WiRK.Abacus.UnitTests
 			Assert.AreEqual(14, map.Wrenches.Count);
 			Assert.AreEqual(8, map.Pits.Count);
 			Assert.AreEqual(0, map.Flags.Count);
-			Assert.AreEqual(38, map.Walls.Count);
+			Assert.AreEqual(64, map.Walls.Count);
 			Assert.AreEqual(6, map.Lasers.Count);
+			Assert.AreEqual(18, map.Pushers.Count);
 		}
 
 		[TestMethod]

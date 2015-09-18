@@ -39,6 +39,9 @@ namespace WiRK.Abacus
 
 		[JsonProperty("lasers")]
 		public List<SerializedLaser> Lasers = new List<SerializedLaser>();
+
+		[JsonProperty("pushers")]
+		public List<SerializedPusher> Pushers = new List<SerializedPusher>(); 
 	}
 
 	[JsonObject]
@@ -114,5 +117,15 @@ namespace WiRK.Abacus
 
 		[JsonIgnore]
 		public Orientation Direction;
+	}
+
+	[JsonObject]
+	class SerializedPusher : SerializedMapItem
+	{
+		[JsonProperty("wall")]
+		public string Wall;
+
+		[JsonProperty("registers")]
+		public List<int> Registers;
 	}
 }

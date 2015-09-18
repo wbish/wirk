@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -153,9 +154,94 @@ namespace WiRK.Abacus
 		#endregion
 
 		#region Load map from file
-		public static List<IEnumerable<ITile>> JsonToMap(string json)
+		public static IEnumerable<IEnumerable<ITile>> JsonToMap(string json)
 		{
-			return null;
+			var reader = new JsonTextReader(new StringReader(json));
+			var deserializedMap = new JsonSerializer().Deserialize<SerializedMap>(reader);
+
+			var map = new ITile[deserializedMap.Height,deserializedMap.Width];
+			for (int j = 0; j < deserializedMap.Height; j++)
+			{
+				for (int i = 0; i < deserializedMap.Width; i++)
+						map[j,i] = new Floor();
+			}
+
+			foreach (var conveyor in deserializedMap.Conveyors)
+			{
+				if (conveyor.Type == "express")
+					map[conveyor.Row, conveyor.Column] = new ExpressConveyer(conveyor.In.Select(o => ParseOrientation(o)), ParseOrientation(conveyor.Out));
+				else
+					map[conveyor.Row, conveyor.Column] = new Conveyer(conveyor.In.Select(o => ParseOrientation(o)), ParseOrientation(conveyor.Out));
+			}
+
+			foreach (var gear in deserializedMap.Gears)
+			{
+				map[gear.Row, gear.Column] = new Gear(ParseRotation(gear.Type));
+			}
+			
+			foreach (var wrench in deserializedMap.Wrenches)
+			{
+				if (wrench.Type == "option")
+					map[wrench.Row, wrench.Column] = new WrenchHammer();
+				else
+					map[wrench.Row, wrench.Column] = new Wrench();
+			}
+
+			foreach (var pit in deserializedMap.Pits)
+			{
+				map[pit.Row, pit.Column] = new Pit();
+			}
+
+			// Flags
+
+			foreach (var wall in deserializedMap.Walls)
+			{
+				(map[wall.Row, wall.Column] as Floor).Edges.AddRange(wall.Edges.Select(o => new Tuple<Orientation, IEdge>(ParseOrientation(o), new WallEdge())));
+			}
+
+			foreach (var laser in deserializedMap.Lasers)
+			{
+				Orientation laserWall = LaserWallEdgeOrientation(laser);
+				(map[laser.Row, laser.Column] as Floor).Edges.RemoveAll(tup => tup.Item1 == laserWall);
+				(map[laser.Row, laser.Column] as Floor).Edges.Add(new Tuple<Orientation, IEdge>(LaserWallEdgeOrientation(laser), new WallLaserEdge(laser.Damage)));
+			}
+
+			var jaggedArray = new List<List<ITile>>(deserializedMap.Height);
+			for (int j = 0; j < deserializedMap.Height; j++)
+			{
+				jaggedArray.Add(new List<ITile>(deserializedMap.Width));
+				for (int i = 0; i < deserializedMap.Width; i++)
+				{
+					jaggedArray[j].Add(map[j, i]);
+				}
+			}
+			return jaggedArray;
+		}
+
+		private static Orientation ParseOrientation(string o)
+		{
+			Orientation orientation;
+			if (Orientation.TryParse(o, true /*ignoreCase*/, out orientation))
+				return orientation;
+			throw new Exception("Invalid orientation");
+		}
+
+		// Because this is the edge the wall is on (rather than the edge the laser is pointing) it will be 
+		// backwards from what you might expect
+		private static Orientation LaserWallEdgeOrientation(SerializedLaser laser)
+		{
+			if (laser.Row == laser.EndRow)
+				return laser.Column > laser.EndColumn ? Orientation.Right : Orientation.Left;
+			else
+				return laser.Row > laser.EndRow ? Orientation.Bottom : Orientation.Top;
+		}
+
+		private static Rotation ParseRotation(string r)
+		{
+			Rotation rotation;
+			if (Rotation.TryParse(r, true /*ignoreCase*/, out rotation))
+				return rotation;
+			throw new Exception("Invalid rotation");
 		}
 		#endregion
 	}

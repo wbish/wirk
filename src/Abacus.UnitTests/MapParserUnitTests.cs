@@ -29,5 +29,18 @@ namespace WiRK.Abacus.UnitTests
 			Assert.AreEqual(38, map.Walls.Count);
 			Assert.AreEqual(6, map.Lasers.Count);
 		}
+
+		[TestMethod]
+		public void TestJsonSerializationRoundtrip()
+		{
+			var name = "Scott's Rally Map";
+			string start = MapParser.MapToJson(name, Maps.GetMap(Maps.MapLayouts.ScottRallyMap));
+			Console.WriteLine(start);
+
+			var deserializedMap = MapParser.JsonToMap(start);
+			string after = MapParser.MapToJson(name, deserializedMap);
+
+			Assert.AreEqual(start, after);
+		}
 	}
 }

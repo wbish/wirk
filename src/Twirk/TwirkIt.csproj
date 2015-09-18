@@ -64,8 +64,8 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Images\ResultArrow.png" />
+    <Content Include="Maps\ScottRallyMap.rrdl" />
     <Content Include="packages.config" />
-    <Content Include="Maps\ScottRallyMap_Manual.rrdl" />
     <None Include="Properties\PublishProfiles\twirkit - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit.pubxml" />

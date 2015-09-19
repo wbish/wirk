@@ -65,6 +65,9 @@
     <Content Include="Default.aspx" />
     <Content Include="Images\ResultArrow.png" />
     <Content Include="Images\roborally-standard-50dpi-flat-v2.png" />
+    <Content Include="Maps\ScottRallyMap.rrdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\twirkit - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />

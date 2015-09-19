@@ -8,7 +8,7 @@ using WiRK.Terminator.MapElements;
 
 namespace WiRK.Abacus
 {
-	static class MapParser
+	public static class MapParser
 	{
 		#region Save map to file
 		public static string MapToJson(string name, IEnumerable<IEnumerable<ITile>> map)

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Policy;
 using Newtonsoft.Json;
 using WiRK.Abacus;
 using WiRK.Terminator;
@@ -44,7 +47,9 @@ namespace WiRK.TwirkIt
 				robot.DealCard(priority);
 			}
 
-			var game = new Game(new Map {Squares = Maps.GetMap(Maps.MapLayouts.ScottRallyMap)}, new List<Robot> {robot});
+			var map = MapParser.JsonToMap(LoadMapJson("~/Maps/ScottRallyMap.rrdl"));
+
+			var game = new Game(new Map {Squares = map}, new List<Robot> {robot});
 			game.Initialize();
 
 			List<List<CardExecutionResult>> results = Simulator.Simulate(robot);
@@ -56,6 +61,15 @@ namespace WiRK.TwirkIt
 			ViewState["Cards"] = Request.Form["cards"];
 
 			ClientScript.RegisterClientScriptBlock(GetType(), "results", "results = " + JsonConvert.SerializeObject(productiveResults, Formatting.Indented), true);
+		}
+
+		string LoadMapJson(string mapFile)
+		{
+			var path = Server.MapPath(mapFile);
+			using (var reader = new StreamReader(new FileStream(path, FileMode.Open)))
+			{
+				return reader.ReadToEnd();
+			}
 		}
 
 		/// <summary>

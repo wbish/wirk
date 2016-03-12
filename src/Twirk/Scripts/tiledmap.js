@@ -21,15 +21,19 @@ function renderTiledMap(mapDiv, map)
 			backgroundDiv.style.float = "left";
 
 			var doodadIndex = board_doodads[x + y * board_width];
-			if (doodadIndex != -1) {
-				var doodadX = -(doodadIndex % tileset_width) * tile_size;
-				var doodadY = -Math.floor(doodadIndex / tileset_width) * tile_size;
+			for (var i = 0; i < doodadIndex.length; ++i)
+			{
+				if (doodadIndex[i] !== -1)
+				{
+					var doodadX = -(doodadIndex % tileset_width) * tile_size;
+					var doodadY = -Math.floor(doodadIndex / tileset_width) * tile_size;
 
-				var doodadDiv = document.createElement("div");
-				doodadDiv.style.width = tile_size + "px";
-				doodadDiv.style.height = tile_size + "px";
-				doodadDiv.style.background = "url('images/roborally-standard-50dpi-flat-v2.png') " + doodadX + "px " + doodadY + "px";
-				backgroundDiv.appendChild(doodadDiv);
+					var doodadDiv = document.createElement("div");
+					doodadDiv.style.width = tile_size + "px";
+					doodadDiv.style.height = tile_size + "px";
+					doodadDiv.style.background = "url('images/roborally-standard-50dpi-flat-v2.png') " + doodadX + "px " + doodadY + "px";
+					backgroundDiv.appendChild(doodadDiv);
+				}
 			}
 			mapDiv.appendChild(backgroundDiv);
 		}

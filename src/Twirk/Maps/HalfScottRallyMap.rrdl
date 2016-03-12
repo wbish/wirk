@@ -522,7 +522,105 @@
       "type": "express",
       "row": 11,
       "column": 10
+    },
+    {
+      "in": [
+        "left"
+      ],
+      "out": "right",
+      "row": 14,
+      "column": 0
+    },
+    {
+      "in": [
+        "left"
+      ],
+      "out": "right",
+      "row": 14,
+      "column": 1
+    },
+    {
+      "in": [
+        "left"
+      ],
+      "out": "bottom",
+      "row": 14,
+      "column": 2
+    },
+    {
+      "in": [
+        "right"
+      ],
+      "out": "bottom",
+      "row": 14,
+      "column": 9
+    },
+    {
+      "in": [
+        "right"
+      ],
+      "out": "left",
+      "row": 14,
+      "column": 10
+    },
+    {
+      "in": [
+        "right"
+      ],
+      "out": "left",
+      "row": 14,
+      "column": 11
+    },
+    {
+      "in": [
+        "top"
+      ],
+      "out": "right",
+      "row": 15,
+      "column": 2
+    },
+    {
+      "in": [
+        "left"
+      ],
+      "out": "right",
+      "row": 15,
+      "column": 3
+    },
+    {
+      "in": [
+        "left"
+      ],
+      "out": "right",
+      "row": 15,
+      "column": 4
+    },
+    {
+      "in": [
+        "right"
+      ],
+      "out": "left",
+      "row": 15,
+      "column": 7
+    },
+    {
+      "in": [
+        "right"
+      ],
+      "out": "left",
+      "row": 15,
+      "column": 8
+    },
+    {
+      "in": [
+        "top"
+      ],
+      "out": "left",
+      "row": 15,
+      "column": 9
     }
+
+
   ],
   "gears": [
     {
@@ -836,6 +934,90 @@
       ],
       "row": 11,
       "column": 9
+    },
+    {
+      "order": [
+        "top"
+      ],
+      "row": 12,
+      "column": 2
+    },
+    {
+      "order": [
+        "right"
+      ],
+      "row": 12,
+      "column": 3
+    },
+    {
+      "order": [
+        "top"
+      ],
+      "row": 12,
+      "column": 4
+    },
+    {
+      "order": [
+        "top"
+      ],
+      "row": 12,
+      "column": 7
+    },
+    {
+      "order": [
+        "left"
+      ],
+      "row": 12,
+      "column": 8
+    },
+    {
+      "order": [
+        "top"
+      ],
+      "row": 12,
+      "column": 9
+    },
+    {
+      "order": [
+        "left"
+      ],
+      "row": 13,
+      "column": 1
+    },
+    {
+      "order": [
+        "left"
+      ],
+      "row": 13,
+      "column": 2
+    },
+    {
+      "order": [
+        "right"
+      ],
+      "row": 13,
+      "column": 9
+    },
+    {
+      "order": [
+        "right"
+      ],
+      "row": 13,
+      "column": 10
+    },
+    {
+      "order": [
+        "left"
+      ],
+      "row": 14,
+      "column": 6
+    },
+    {
+      "order": [
+        "left"
+      ],
+      "row": 15,
+      "column": 6
     }
   ],
   "lasers": [

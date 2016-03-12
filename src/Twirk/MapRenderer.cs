@@ -19,7 +19,6 @@ namespace WiRK.TwirkIt
 				["doodads"] = DoodadMapSprites(map)
 			};
 
-
 			return jsonMap;
 		}
 
@@ -27,138 +26,123 @@ namespace WiRK.TwirkIt
 		{
 			int rowCount = map.Count();
 			int columnCount = map.First().Count();
-
 			var doodads = new JArray();
+
 			for (int i = 0; i < rowCount; ++i)
 			{
 				for (int j = 0; j < columnCount; ++j)
 				{
 					ITile tile = map[i][j];
+					var floor = tile as Floor;
 
-					if (tile is Floor)
+					if (floor != null && floor.Edges.Any())
 					{
-						var floor = (Floor) tile;
+						var d = new List<int>();
 
-						if (floor.Edges.Any())
+						foreach (var edge in floor.Edges)
 						{
-							var d = new List<int>();
-
-							foreach (var edge in floor.Edges)
+							if (edge.Item1 == Orientation.Top)
 							{
-								if (edge.Item1 == Orientation.Top)
+								if (edge.Item2 is WallLaserEdge)
 								{
-									if (edge.Item2 is WallLaserEdge)
-									{
-										var lasers = edge.Item2 as WallLaserEdge;
-										if (lasers.Lasers == 1)
-											d.Add(120);
-										else
-											d.Add(123);
-									}
-									else if (edge.Item2 is WallPusherEdge)
-									{
-										var pusher = edge.Item2 as WallPusherEdge;
-										if (pusher.Registers.Contains(1))
-											d.Add(9);
-										else
-											d.Add(1);
-									}
-									else // Simple Wall
-									{
-										d.Add(31);
-									}
+									var lasers = edge.Item2 as WallLaserEdge;
+									if (lasers.Lasers == 1)
+										d.Add(120);
+									else
+										d.Add(123);
 								}
-								else if (edge.Item1 == Orientation.Right)
+								else if (edge.Item2 is WallPusherEdge)
 								{
-									if (edge.Item2 is WallLaserEdge)
-									{
-										var lasers = edge.Item2 as WallLaserEdge;
-										if (lasers.Lasers == 1)
-											d.Add(121);
-										else
-											d.Add(124);
-									}
-									else if (edge.Item2 is WallPusherEdge)
-									{
-										var pusher = edge.Item2 as WallPusherEdge;
-										if (pusher.Registers.Contains(1))
-											d.Add(10);
-										else
-											d.Add(2);
-									}
-									else // Simple Wall
-									{
-										d.Add(7);
-									}
+									var pusher = edge.Item2 as WallPusherEdge;
+									if (pusher.Registers.Contains(1))
+										d.Add(9);
+									else
+										d.Add(1);
 								}
-								else if (edge.Item1 == Orientation.Bottom)
+								else // Simple Wall
 								{
-									if (edge.Item2 is WallLaserEdge)
-									{
-										var lasers = edge.Item2 as WallLaserEdge;
-										if (lasers.Lasers == 1)
-											d.Add(112);
-										else
-											d.Add(115);
-									}
-									else if (edge.Item2 is WallPusherEdge)
-									{
-										var pusher = edge.Item2 as WallPusherEdge;
-										if (pusher.Registers.Contains(1))
-											d.Add(11);
-										else
-											d.Add(3);
-									}
-									else // Simple Wall
-									{
-										d.Add(15);
-									}
-								}
-								else //Left
-								{
-									if (edge.Item2 is WallLaserEdge)
-									{
-										var lasers = edge.Item2 as WallLaserEdge;
-										if (lasers.Lasers == 1)
-											d.Add(113);
-										else
-											d.Add(116);
-									}
-									else if (edge.Item2 is WallPusherEdge)
-									{
-										var pusher = edge.Item2 as WallPusherEdge;
-										if (pusher.Registers.Contains(1))
-											d.Add(12);
-										else
-											d.Add(4);
-									}
-									else // Simple Wall
-									{
-										d.Add(23);
-									}
+									d.Add(31);
 								}
 							}
-
-							if (d.Count == 1)
+							else if (edge.Item1 == Orientation.Right)
 							{
-								doodads.Add(d.First());
+								if (edge.Item2 is WallLaserEdge)
+								{
+									var lasers = edge.Item2 as WallLaserEdge;
+									if (lasers.Lasers == 1)
+										d.Add(121);
+									else
+										d.Add(124);
+								}
+								else if (edge.Item2 is WallPusherEdge)
+								{
+									var pusher = edge.Item2 as WallPusherEdge;
+									if (pusher.Registers.Contains(1))
+										d.Add(10);
+									else
+										d.Add(2);
+								}
+								else // Simple Wall
+								{
+									d.Add(7);
+								}
 							}
-							else
+							else if (edge.Item1 == Orientation.Bottom)
 							{
-								doodads.Add(new JArray(d));
+								if (edge.Item2 is WallLaserEdge)
+								{
+									var lasers = edge.Item2 as WallLaserEdge;
+									if (lasers.Lasers == 1)
+										d.Add(112);
+									else
+										d.Add(115);
+								}
+								else if (edge.Item2 is WallPusherEdge)
+								{
+									var pusher = edge.Item2 as WallPusherEdge;
+									if (pusher.Registers.Contains(1))
+										d.Add(11);
+									else
+										d.Add(3);
+								}
+								else // Simple Wall
+								{
+									d.Add(15);
+								}
+							}
+							else //Left
+							{
+								if (edge.Item2 is WallLaserEdge)
+								{
+									var lasers = edge.Item2 as WallLaserEdge;
+									if (lasers.Lasers == 1)
+										d.Add(113);
+									else
+										d.Add(116);
+								}
+								else if (edge.Item2 is WallPusherEdge)
+								{
+									var pusher = edge.Item2 as WallPusherEdge;
+									if (pusher.Registers.Contains(1))
+										d.Add(12);
+									else
+										d.Add(4);
+								}
+								else // Simple Wall
+								{
+									d.Add(23);
+								}
 							}
 						}
-						else
-						{
-							doodads.Add(-1);
-						}
+
+						doodads.Add(new JArray(d));
+						continue;
 					}
-					else
-					{
-						doodads.Add(-1);
-					}
+
+					doodads.Add(new JArray(-1));
 				}
 			}
+
 			return doodads;
 		}
 
@@ -348,7 +332,7 @@ namespace WiRK.TwirkIt
 					}
 					else if (tile is Gear)
 					{
-						Gear gear = (Gear) tile;
+						Gear gear = (Gear)tile;
 						if (gear.Direction == Rotation.Clockwise)
 							tiles.Add(39);
 						else

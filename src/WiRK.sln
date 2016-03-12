@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terminator", "Terminator\Terminator.csproj", "{1B246C46-E7C1-478E-9C29-BA31CDF672FF}"
 EndProject
@@ -12,17 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abacus.UnitTests", "Abacus.UnitTests\Abacus.UnitTests.csproj", "{9830D151-75F1-4061-9D49-719CB3B99BE3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwirkIt", "Twirk\TwirkIt.csproj", "{C953976C-7986-486E-8D1D-CA7A591AE801}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{2B29BB26-D1D7-4431-9427-4887C3039CFD}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
-		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{9BD5C12B-EEC0-4E86-A452-D2F8FAE382A9}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\Configurations\Twirk-WAWS-dev.json = PublishScripts\Configurations\Twirk-WAWS-dev.json
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,8 +42,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9BD5C12B-EEC0-4E86-A452-D2F8FAE382A9} = {2B29BB26-D1D7-4431-9427-4887C3039CFD}
 	EndGlobalSection
 EndGlobal

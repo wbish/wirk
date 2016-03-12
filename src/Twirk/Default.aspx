@@ -53,7 +53,7 @@
 			<tr>
 				<td>
 					<div>
-						<div id="tiledMapDiv" style="width:600px;position:relative;">
+						<div id="tiledMapDiv" style="width: 600px; position: relative;">
 							<div id="robot" class="startRobot robot"></div>
 						</div>
 					</div>
@@ -66,6 +66,10 @@
 				</td>
 			</tr>
 		</table>
+		
+		<div>
+			<img src="Images/doggy.gif" alt="Twirky the Dog" />
+		</div>
 
 		<div>
 			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/wirk">Make it better!</a></p>

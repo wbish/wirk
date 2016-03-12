@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
+    <Content Include="Images\doggy.gif" />
     <Content Include="Images\ResultArrow.png" />
     <Content Include="Images\roborally-standard-50dpi-flat-v2.png" />
     <Content Include="Maps\ScottRallyMap.rrdl">

@@ -75,7 +75,9 @@
 		<%-- ReSharper disable once AssignToImplicitGlobalInFunctionScope --%>
 		<script type="text/javascript" src="Scripts/twirk.js"></script>
 		<script type="text/javascript">
-			renderTiledMap(document.getElementById("tiledMapDiv"));
+			var map = <%=ViewState["Map"]%>;
+
+			renderTiledMap(document.getElementById("tiledMapDiv"), map);
 
 			setOrientation(<%=ViewState["Facing"]%>);
 			setRobot(<%=ViewState["PosX"]%>, <%=ViewState["PosY"]%>);

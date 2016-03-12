@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Security.Policy;
+using System.Web.UI;
 using Newtonsoft.Json;
 using WiRK.Abacus;
 using WiRK.Terminator;
 
 namespace WiRK.TwirkIt
 {
-	public partial class Default : System.Web.UI.Page
+	public partial class Default : Page
 	{
+		private const string ActiveMap = "~/Maps/HalfScottRallyMap.rrdl";
+
 		/// <summary>
 		/// Set the default user state
 		/// </summary>
@@ -23,6 +24,7 @@ namespace WiRK.TwirkIt
 			ViewState["PosY"] = "0";
 			ViewState["Facing"] = "0";
 			ViewState["Cards"] = string.Empty;
+			ViewState["Map"] = MapRenderer.MapToJson(MapParser.JsonToMap(LoadMapJson(ActiveMap)).Select(x => x.ToList()).ToList()).ToString();
 		}
 
 		/// <summary>
@@ -36,9 +38,9 @@ namespace WiRK.TwirkIt
 			List<int> position = Request.Form["robotPosition"].Split(',').Select(int.Parse).ToList();
 			var cards = Request.Form["cards"].Split(',').Select(x => GetCardPriority(deck, x));
 
-			var robot = new Robot 
+			var robot = new Robot
 			{
-				Position = new Coordinate {X = position[0], Y = position[1]},
+				Position = new Coordinate { X = position[0], Y = position[1] },
 				Facing = (Orientation)Enum.Parse(typeof(Orientation), Request.Form["robotOrientation"])
 			};
 
@@ -47,9 +49,9 @@ namespace WiRK.TwirkIt
 				robot.DealCard(priority);
 			}
 
-			var map = MapParser.JsonToMap(LoadMapJson("~/Maps/ScottRallyMap.rrdl"));
+			var map = MapParser.JsonToMap(LoadMapJson(ActiveMap));
 
-			var game = new Game(new Map {Squares = map}, new List<Robot> {robot});
+			var game = new Game(new Map { Squares = map }, new List<Robot> { robot });
 			game.Initialize();
 
 			List<List<CardExecutionResult>> results = Simulator.Simulate(robot);

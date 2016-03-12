@@ -69,6 +69,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="Maps\HalfScottRallyMap.rrdl" />
     <None Include="Properties\PublishProfiles\twirkit - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\twirkit.pubxml" />
@@ -107,6 +108,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MapRenderer.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

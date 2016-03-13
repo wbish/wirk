@@ -14,12 +14,16 @@
 
 	<%-- ReSharper disable CssBrowserCompatibility --%>
 	<style>
-		.robot {
-			width: 48px;
-			height: 48px;
-			background-size: 100%;
-			position: absolute;
+		body {
+			padding-top: 75px;
 		}
+
+		 .robot {
+			 width: 48px;
+			 height: 48px;
+			 background-size: 100%;
+			 position: absolute;
+		 }
 
 		.startRobot {
 			background: url('Images/RobotArrow.png');
@@ -39,25 +43,43 @@
 </head>
 <body>
 
-	<div class="container-fluid">
-		<div class="jumbotron">
-			<div class="jumbotron-layer">
-				<div class="container">
-					<h1>Twirk It!</h1>
+	<div class="container">
+		<header>
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Twirk It!</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#" onclick="javascript:alert('You agree I can look at your cards and use that information in any way I wish.');">EULA</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<button type="button" class="btn btn-success navbar-btn" onclick="window.location='https://github.com/wbish/wirk'" role="link">Github</button>
+						</li>
+					</ul>
 				</div>
 			</div>
-		</div>
-
+		</nav>
+		</header>
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-lg-7">
+				<ol>
+					<li class="lead">Click the board to set your initial robot position and orientation.</li>
+					<li class="lead">Enter list of card priorities or codes.</li>
+					<li class="lead">Click Run Simulations. Then click a blue arrow to reveal ways to get there.</li>
+				</ol>
+			</div>
+			<div class="col-lg-5">
 				<form id="formSimulations" runat="server">
-					<ol>
-						<li class="lead">Click the board to set your initial robot position and orientation.</li>
-						<li class="lead">Enter list of card priorities or codes.</li>
-						<li class="lead">Click Run Simulations. Then click a blue arrow to reveal ways to get there.</li>
-					</ol>
-
-					<input type="text" class="form-control" placeholder="cards" id="cards" name="Cards" value="<%=ViewState["Cards"] %>" />
+					<input type="text" class="form-control" placeholder="Enter your cards" id="cards" name="Cards" value="<%=ViewState["Cards"] %>" />
 					<input type="hidden" id="robotPosition" name="RobotPosition" value="<%=ViewState["PosX"]%>,<%=ViewState["PosY"]%>" />
 					<input type="hidden" id="robotOrientation" name="RobotOrientation" value="<%=ViewState["Facing"]%>" />
 
@@ -67,13 +89,16 @@
 					<input type="button" class="btn btn-primary" onclick="return RunSimulations({});" value="Run Simulations" />
 				</form>
 			</div>
+		</div>
 
-			<div class="col-lg-4">
+		<hr/>
+
+		<div class="row">
+			<div class="col-lg-7">
 				<div id="tiledMapDiv" style="width: 600px; position: relative;">
 					<div id="robot" class="startRobot robot"></div>
 				</div>
 			</div>
-
 			<div class="col-lg-5">
 				<h2>Results</h2>
 				<p>
@@ -83,12 +108,6 @@
 			</div>
 		</div>
 
-		<hr />
-
-		<div>
-			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/wirk">Make it better!</a></p>
-			<p><a href="javascript:alert('I promise not to look at your cards. Maybe.');">EULA</a></p>
-		</div>
 	</div>
 
 	<div class="modal fade" id="LoadingImageModal" tabindex="-1" role="dialog" aria-labelledby="LoadingModalLabel" aria-hidden="true">
@@ -98,7 +117,7 @@
 					<h4 class="modal-title">Twirking...</h4>
 				</div>
 				<div class="modal-body">
-					<img src="Images/doggy.gif" alt="Twirking..." class="center-block img-responsive"/>
+					<img src="Images/doggy.gif" alt="Twirking..." class="center-block img-responsive" />
 				</div>
 			</div>
 		</div>

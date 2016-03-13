@@ -18,10 +18,6 @@ namespace WiRK.TwirkIt
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			ViewState["PosX"] = "0";
-			ViewState["PosY"] = "0";
-			ViewState["Facing"] = "0";
-			ViewState["Cards"] = string.Empty;
 			ViewState["Map"] = MapRenderer.MapToJson(MapParser.JsonToMap(LoadMapJson(ActiveMap)).Select(x => x.ToList()).ToList()).ToString();
 		}
 		

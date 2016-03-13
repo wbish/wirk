@@ -1,0 +1,29 @@
+﻿body {
+	padding-top: 75px;
+}
+
+.footer {
+	padding-bottom: 20px;
+}
+
+.robot {
+	width: 48px;
+	height: 48px;
+	-ms-background-size: 100%;
+	background-size: 100%;
+	position: absolute;
+}
+
+.startRobot {
+	background: url('../Images/RobotArrow.png');
+}
+
+.resultRobot {
+	background: url('../Images/ResultArrow.png');
+}
+
+.twirk-loading {
+	background: url('../Images/doggy.gif') center center no-repeat #fff;
+	width: 560px;
+	height: 590px;
+}

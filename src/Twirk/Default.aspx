@@ -11,63 +11,35 @@
 
 	<meta name="language" content="english" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-
-	<%-- ReSharper disable CssBrowserCompatibility --%>
-	<style>
-		body {
-			padding-top: 75px;
-		}
-
-		 .robot {
-			 width: 48px;
-			 height: 48px;
-			 background-size: 100%;
-			 position: absolute;
-		 }
-
-		.startRobot {
-			background: url('Images/RobotArrow.png');
-		}
-
-		.resultRobot {
-			background: url('Images/ResultArrow.png');
-		}
-
-		.twirk-loading {
-			background: url('Images/doggy.gif') center center no-repeat #fff;
-			width: 560px;
-			height: 590px;
-		}
-	</style>
-	<%-- ReSharper restore CssBrowserCompatibility --%>
+	<link rel="stylesheet" href="Styles/Twirk.css" />
 </head>
 <body>
 
 	<div class="container">
 		<header>
 			<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/">Twirk It!</a>
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/">Twirk It!</a>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li><a href="#" onclick="javascript:alert('You agree I can look at your cards and use that information in any way I wish.');">EULA</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li>
+								<button type="button" class="btn btn-success navbar-btn" onclick="window.location='https://github.com/wbish/wirk'" role="link">Github</button>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="#" onclick="javascript:alert('You agree I can look at your cards and use that information in any way I wish.');">EULA</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<button type="button" class="btn btn-success navbar-btn" onclick="window.location='https://github.com/wbish/wirk'" role="link">Github</button>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+			</nav>
 		</header>
 		<div class="row">
 			<div class="col-lg-7">
@@ -78,20 +50,18 @@
 				</ol>
 			</div>
 			<div class="col-lg-5">
-				<form id="formSimulations" runat="server">
-					<input type="text" class="form-control" placeholder="Enter your cards" id="cards" name="Cards" value="<%=ViewState["Cards"] %>" />
-					<input type="hidden" id="robotPosition" name="RobotPosition" value="<%=ViewState["PosX"]%>,<%=ViewState["PosY"]%>" />
-					<input type="hidden" id="robotOrientation" name="RobotOrientation" value="<%=ViewState["Facing"]%>" />
+				<input type="text" class="form-control" placeholder="Enter your cards" id="cards" name="Cards" value="" />
+				<input type="hidden" id="robotPosition" name="RobotPosition" value="0,0" />
+				<input type="hidden" id="robotOrientation" name="RobotOrientation" value="0" />
 
-					<p class="help-block">(UTurn = U; BackUp = B, RotateRight = R, RotateLeft = L; Move1 = 1, Move2 = 2, Move3 = 3).</p>
-					<p class="help-block">For example: <strong>310,20,830,740,600</strong> or <strong>L,B,3,2,1</strong></p>
+				<p class="help-block">(UTurn = U; BackUp = B, RotateRight = R, RotateLeft = L; Move1 = 1, Move2 = 2, Move3 = 3).</p>
+				<p class="help-block">For example: <strong>310,20,830,740,600</strong> or <strong>L,B,3,2,1</strong></p>
 
-					<input type="button" class="btn btn-primary" onclick="return RunSimulations({});" value="Run Simulations" />
-				</form>
+				<input type="submit" class="btn btn-primary" onclick="return RunSimulations();" value="Run Simulations" />
 			</div>
 		</div>
 
-		<hr/>
+		<hr />
 
 		<div class="row">
 			<div class="col-lg-7">
@@ -106,6 +76,12 @@
 				</p>
 				<div id="results-permutations"></div>
 			</div>
+		</div>
+
+		<hr />
+
+		<div class="footer text-center">
+			<span class="text-muted">2016 &copy; William Bishop</span>
 		</div>
 
 	</div>
@@ -133,9 +109,17 @@
 
 		renderTiledMap(mapDiv, map);
 
-		setOrientation(<%=ViewState["Facing"]%>);
-		setRobot(<%=ViewState["PosX"]%>, <%=ViewState["PosY"]%>);
+		setOrientation(0);
+		setRobot(0,0);
 		showResults();
+
+		$(document).ready(function () { 
+			$('#cards').bind("keypress", function(e) {
+				if (e.keyCode === 13) {
+					RunSimulations();
+				}
+			});
+		});
 	</script>
 </body>
 </html>

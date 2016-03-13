@@ -77,6 +77,7 @@
     <Content Include="Images\RobotArrow.png" />
     <Content Include="Scripts\tiledmap.js" />
     <Content Include="Scripts\twirk.js" />
+    <Content Include="Styles\Twirk.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

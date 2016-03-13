@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.Hosting;
+using System.Web.Services;
 using System.Web.UI;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WiRK.Abacus;
 using WiRK.Terminator;
 
@@ -13,11 +16,6 @@ namespace WiRK.TwirkIt
 	{
 		private const string ActiveMap = "~/Maps/HalfScottRallyMap.rrdl";
 
-		/// <summary>
-		/// Set the default user state
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			ViewState["PosX"] = "0";
@@ -26,22 +24,21 @@ namespace WiRK.TwirkIt
 			ViewState["Cards"] = string.Empty;
 			ViewState["Map"] = MapRenderer.MapToJson(MapParser.JsonToMap(LoadMapJson(ActiveMap)).Select(x => x.ToList()).ToList()).ToString();
 		}
-
-		/// <summary>
-		/// Run the simulations and save result to ViewState and JS script block
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		protected void btnRunSimulations_OnClick(object sender, EventArgs e)
+		
+		[WebMethod]
+		public static string RunSimulations(string body)
 		{
-			var deck = new Deck();
-			List<int> position = Request.Form["robotPosition"].Split(',').Select(int.Parse).ToList();
-			var cards = Request.Form["cards"].Split(',').Select(x => GetCardPriority(deck, x));
+			JToken json = JToken.Parse(body);
 
-			var robot = new Robot
+			var deck = new Deck();
+			IEnumerable<int> cards = json["cards"].ToString().Split(',').Select(x => GetCardPriority(deck, x));
+			List<int> robotPosition = json["robotPosition"].ToString().Split(',').Select(int.Parse).ToList();
+			string robotOrientation = json["robotOrientation"].ToString();
+
+            var robot = new Robot
 			{
-				Position = new Coordinate { X = position[0], Y = position[1] },
-				Facing = (Orientation)Enum.Parse(typeof(Orientation), Request.Form["robotOrientation"])
+				Position = new Coordinate { X = robotPosition[0], Y = robotPosition[1] },
+				Facing = (Orientation)Enum.Parse(typeof(Orientation), robotOrientation)
 			};
 
 			foreach (var priority in cards)
@@ -57,30 +54,19 @@ namespace WiRK.TwirkIt
 			List<List<CardExecutionResult>> results = Simulator.Simulate(robot);
 			List<List<CardExecutionResult>> productiveResults = results.Where(result => result.Last().Position.X != -1).ToList();
 
-			ViewState["PosX"] = position[0];
-			ViewState["PosY"] = position[1];
-			ViewState["Facing"] = Request.Form["robotOrientation"];
-			ViewState["Cards"] = Request.Form["cards"];
-
-			ClientScript.RegisterClientScriptBlock(GetType(), "results", "results = " + JsonConvert.SerializeObject(productiveResults, Formatting.Indented), true);
+			return JsonConvert.SerializeObject(productiveResults, Formatting.Indented);
 		}
 
-		string LoadMapJson(string mapFile)
+		private static string LoadMapJson(string mapFile)
 		{
-			var path = Server.MapPath(mapFile);
+			var path = HostingEnvironment.MapPath(mapFile);
 			using (var reader = new StreamReader(new FileStream(path, FileMode.Open)))
 			{
 				return reader.ReadToEnd();
 			}
 		}
 
-		/// <summary>
-		/// Get card priority from user input
-		/// </summary>
-		/// <param name="deck">Deck to retrieve card from</param>
-		/// <param name="card">Card from user input. A priority number or card move abbreviation: U, L, R, B, 1, 2, 3</param>
-		/// <returns></returns>
-		private int GetCardPriority(Deck deck, string card)
+		private static int GetCardPriority(Deck deck, string card)
 		{
 			if (card.Equals("U", StringComparison.InvariantCultureIgnoreCase))
 				return deck.GetCard(ProgramCardType.UTurn).Priority;

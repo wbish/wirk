@@ -83,6 +83,7 @@
     <Content Include="Images\RobotArrow.png" />
     <Content Include="Scripts\tiledmap.js" />
     <Content Include="Scripts\twirk.js" />
+    <Content Include="Scripts\waitingfor.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -29,8 +29,10 @@
 			background: url('Images/ResultArrow.png');
 		}
 
-		.grayedOutRegister {
-			color: lightgray;
+		.twirk-loading {
+			background: url('Images/doggy.gif') center center no-repeat #fff;
+			width: 560px;
+			height: 590px;
 		}
 	</style>
 	<%-- ReSharper restore CssBrowserCompatibility --%>
@@ -47,12 +49,12 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-lg-3">
 				<form id="formSimulations" runat="server">
 					<ol>
 						<li class="lead">Click the board to set your initial robot position and orientation.</li>
 						<li class="lead">Enter list of card priorities or codes.</li>
-						<li class="lead">After running the simulation, click a blue arrow to reveal ways to get there.</li>
+						<li class="lead">Click Run Simulations. Then click a blue arrow to reveal ways to get there.</li>
 					</ol>
 
 					<input type="text" class="form-control" placeholder="cards" id="cards" name="Cards" value="<%=ViewState["Cards"] %>" />
@@ -62,17 +64,17 @@
 					<p class="help-block">(UTurn = U; BackUp = B, RotateRight = R, RotateLeft = L; Move1 = 1, Move2 = 2, Move3 = 3).</p>
 					<p class="help-block">For example: <strong>310,20,830,740,600</strong> or <strong>L,B,3,2,1</strong></p>
 
-					<asp:Button runat="server" CssClass="btn btn-primary" ID="btnRunSimulations" OnClientClick="return ValidateSimulate();" OnClick="btnRunSimulations_OnClick" Text="Run Simulations!" />
+					<input type="button" class="btn btn-primary" onclick="return RunSimulations({});" value="Run Simulations" />
 				</form>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-lg-4">
 				<div id="tiledMapDiv" style="width: 600px; position: relative;">
 					<div id="robot" class="startRobot robot"></div>
 				</div>
 			</div>
 
-			<div class="col-md-5">
+			<div class="col-lg-5">
 				<h2>Results</h2>
 				<p>
 					<input class="btn btn-warning" type="button" onclick="return cleanResults();" value="Clear Results" />
@@ -84,10 +86,6 @@
 		<hr />
 
 		<div>
-			<img src="Images/doggy.gif" alt="Twirky the Dog" />
-		</div>
-
-		<div>
 			<p>Enjoy TwirkIt? <a href="https://github.com/wbish/wirk">Make it better!</a></p>
 			<p><a href="javascript:alert('I promise not to look at your cards. Maybe.');">EULA</a></p>
 		</div>
@@ -95,12 +93,14 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="Scripts/waitingfor.js"></script>
 	<script type="text/javascript" src="Scripts/tiledmap.js"></script>
 	<script type="text/javascript" src="Scripts/twirk.js"></script>
 	<script type="text/javascript">
 		var map = <%=ViewState["Map"]%>;
+		var mapDiv = document.getElementById("tiledMapDiv");
 
-		renderTiledMap(document.getElementById("tiledMapDiv"), map);
+		renderTiledMap(mapDiv, map);
 
 		setOrientation(<%=ViewState["Facing"]%>);
 		setRobot(<%=ViewState["PosX"]%>, <%=ViewState["PosY"]%>);

@@ -1,24 +1,29 @@
 ﻿function ValidateSimulate() {
 	var cards = document.getElementById('cards').value;
 
-	if (cards === "") {
+	if (cards === "")
+	{
 		alert('You need to tell me what cards you have first.');
 		return false;
 	}
 
 	var cardInts = cards.split(",");
 
-	if (cardInts.length < 5) {
+	if (cardInts.length < 5)
+	{
 		alert("You should have atleast 5 cards");
 		return false;
 	}
 
-	for (var i = 0; i < cardInts.length; i++) {
+	for (var i = 0; i < cardInts.length; i++)
+	{
 		var cv = cardInts[i];
 		var ucv = cv.toUpperCase();
 
-		if (ucv !== 'U' && ucv !== 'B' && ucv !== 'R' && ucv !== 'L' && ucv !== '1' && ucv !== '2' && ucv !== '3') {
-			if (cv % 10 !== 0 || cv < 10 || cv > 840) {
+		if (ucv !== 'U' && ucv !== 'B' && ucv !== 'R' && ucv !== 'L' && ucv !== '1' && ucv !== '2' && ucv !== '3')
+		{
+			if (cv % 10 !== 0 || cv < 10 || cv > 840)
+			{
 				alert("Invalid card priority: " + cv);
 				return false;
 			}
@@ -32,58 +37,68 @@ var TILE_EDGE_SIZE = 50;
 
 $('#tiledMapDiv').on('click', function (e) {
 	var mapoffset = $('#tiledMapDiv').offset();
-	var x = Math.floor((e.pageX- mapoffset.left) / TILE_EDGE_SIZE);
+	var x = Math.floor((e.pageX - mapoffset.left) / TILE_EDGE_SIZE);
 	var y = Math.floor((e.pageY - mapoffset.top) / TILE_EDGE_SIZE);
 
 
 	// We are placing the robot for move calculation
-	if (typeof results == 'undefined' || results == null) {
+	if (typeof results == 'undefined' || results == null)
+	{
 		var currentPosition = document.getElementById("robotPosition").value;
 		var clickedPosition = x + "," + y;
 
-		if (currentPosition == clickedPosition) {
+		if (currentPosition === clickedPosition)
+		{
 			setOrientation(parseInt(document.getElementById("robotOrientation").value) + 1);
-		} else {
+		} else
+		{
 			setRobot(x, y);
 		}
 	}
-	else {
+	else
+	{
 		// We are trying to look at results
 		var resultsDiv = $("#results-permutations");
 		resultsDiv.empty();
 
 		var hidePanels = false;
 
-		for (var j = 5; j > 0; --j) {
+		for (var j = 5; j > 0; --j)
+		{
 			var inited = false;
 			var listId = "results-register-" + j;
-			for (var i = 0; i < results.length; ++i) {
-				if (results[i][j - 1].Position.X === x && results[i][j - 1].Position.Y === y) {
-					if (!inited) {
+			for (var i = 0; i < results.length; ++i)
+			{
+				if (results[i][j - 1].Position.X === x && results[i][j - 1].Position.Y === y)
+				{
+					if (!inited)
+					{
 						inited = true;
 						resultsDiv.append("<div class=\"panel panel-primary\">"
-							+	"<div class=\"panel-heading\">"
-							+		"<h3 class=\"panel-title\">Register " + j + "</h3>"
-							+		"<p><button class=\"btn\" data-toggle=\"collapse\" data-target=\"#results-panel-" + j + "\">Toggle</button><p>"
-							+	"</div>"
-							+	"<div id=\"results-panel-" + j + "\" class=\"panel-body " + (hidePanels ? "collapse" : "") + "\"><ul id='" + listId + "'></ul></div>"
+							+ "<div class=\"panel-heading\">"
+							+ "<h3 class=\"panel-title\">Register " + j + "</h3>"
+							+ "<p><button class=\"btn\" data-toggle=\"collapse\" data-target=\"#results-panel-" + j + "\">Toggle</button><p>"
+							+ "</div>"
+							+ "<div id=\"results-panel-" + j + "\" class=\"panel-body " + (hidePanels ? "collapse" : "") + "\"><ul id='" + listId + "'></ul></div>"
 							+ "</div>");
 					}
 
 					var turnDamage = 0;
 					var cards = "";
 
-					for (var k = 0; k < j; ++k) {
+					for (var k = 0; k < j; ++k)
+					{
 						var damage = results[i][k].Damage > 0 ? " (+" + results[i][k].Damage + ")" : "";
 						turnDamage += results[i][k].Damage;
 						cards += cardType(results[i][k].Card) + damage + ' ; ';
 					}
 					cards += "Facing == " + facing(results[i][j - 1].Facing);
 
-					for (var q = j + 1; q <= 5; ++q) {
+					for (var q = j + 1; q <= 5; ++q)
+					{
 						var futureDamage = results[i][q - 1].Damage > 0 ? " (+" + results[i][q - 1].Damage + ")" : "";
 						turnDamage += results[i][q - 1].Damage;
-						cards += "<span class='grayedOutRegister'> ; " + cardType(results[i][q - 1].Card) + futureDamage + "</span>";
+						cards += "<span class='text-muted'> ; " + cardType(results[i][q - 1].Card) + futureDamage + "</span>";
 					}
 
 					var highlight = "label label-success";
@@ -134,7 +149,8 @@ function showResults() {
 	if (typeof results == "undefined" || results == null)
 		return;
 
-	for (var i = 0; i < results.length; ++i) {
+	for (var i = 0; i < results.length; ++i)
+	{
 		var left = (results[i][4].Position.X * TILE_EDGE_SIZE) + "px";
 		var top = (results[i][4].Position.Y * TILE_EDGE_SIZE) + "px";
 		var rotate = results[i][4].Facing * 90;
@@ -150,29 +166,66 @@ function cleanResults() {
 }
 
 function cardType(x) {
-	if (x == 0)
+	if (x === 0)
 		return "UTurn";
-	else if (x == 1)
+	else if (x === 1)
 		return "RotateLeft";
-	else if (x == 2)
+	else if (x === 2)
 		return "RotateRight";
-	else if (x == 3)
+	else if (x === 3)
 		return "BackUp";
-	else if (x == 4)
+	else if (x === 4)
 		return "Move1";
-	else if (x == 5)
+	else if (x === 5)
 		return "Move2";
 	else
 		return "Move3";
 }
 
 function facing(f) {
-	if (f == 0)
+	if (f === 0)
 		return "Up";
-	else if (f == 1)
+	else if (f === 1)
 		return "Right";
-	else if (f == 2)
+	else if (f === 2)
 		return "Down";
 	else
 		return "Left";
+}
+
+function RunSimulations() {
+	if (!ValidateSimulate())
+		return false;
+
+	var body = {
+		"cards": document.getElementById('cards').value,
+		"robotPosition": document.getElementById("robotPosition").value,
+		"robotOrientation": parseInt(document.getElementById("robotOrientation").value)
+	}
+
+	var options = {
+		"headerText": "Twirking...",
+		"contentElement": "div",
+		"contentClass": "twirk-loading"
+	}
+	waitingDialog.show("", options);
+
+	$.ajax({
+		type: "POST",
+		url: "Default.aspx/RunSimulations",
+		data: "{\"body\": '" + JSON.stringify(body) +"' }",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: function (json) {
+			waitingDialog.hide();
+			results = JSON.parse(json.d);
+			showResults();
+		},
+		error: function () {
+			waitingDialog.hide();
+			alert("Hmm, something went wrong. Looks like no Twirking for you today :(");
+		}
+	});
+
+	return true;
 }

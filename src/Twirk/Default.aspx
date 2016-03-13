@@ -91,9 +91,21 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="LoadingImageModal" tabindex="-1" role="dialog" aria-labelledby="LoadingModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Twirking...</h4>
+				</div>
+				<div class="modal-body">
+					<img src="Images/doggy.gif" alt="Twirking..." class="center-block img-responsive"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="Scripts/waitingfor.js"></script>
 	<script type="text/javascript" src="Scripts/tiledmap.js"></script>
 	<script type="text/javascript" src="Scripts/twirk.js"></script>
 	<script type="text/javascript">

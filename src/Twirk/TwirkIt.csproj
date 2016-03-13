@@ -72,18 +72,11 @@
     <Content Include="packages.config" />
     <Content Include="Maps\HalfScottRallyMap.rrdl" />
     <None Include="Properties\PublishProfiles\twirkit - Web Deploy.pubxml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\RobotArrow.png" />
     <Content Include="Scripts\tiledmap.js" />
     <Content Include="Scripts\twirk.js" />
-    <Content Include="Scripts\waitingfor.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -159,7 +159,7 @@ function showResults() {
 }
 
 function cleanResults() {
-	results = null;
+	window.results = null;
 	showResults();
 	$("#results-permutations").empty();
 	return false;
@@ -203,12 +203,7 @@ function RunSimulations() {
 		"robotOrientation": parseInt(document.getElementById("robotOrientation").value)
 	}
 
-	var options = {
-		"headerText": "Twirking...",
-		"contentElement": "div",
-		"contentClass": "twirk-loading"
-	}
-	waitingDialog.show("", options);
+	$('#LoadingImageModal').modal('show');
 
 	$.ajax({
 		type: "POST",
@@ -217,12 +212,12 @@ function RunSimulations() {
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: function (json) {
-			waitingDialog.hide();
-			results = JSON.parse(json.d);
+			$('#LoadingImageModal').modal('hide');
+			window.results = JSON.parse(json.d);
 			showResults();
 		},
 		error: function () {
-			waitingDialog.hide();
+			$('#LoadingImageModal').modal('hide');
 			alert("Hmm, something went wrong. Looks like no Twirking for you today :(");
 		}
 	});
